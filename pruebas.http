@@ -1,0 +1,34 @@
+### 1. REGISTRAR USUARIO
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Ana Martinez",
+    "correo": "ana@gmail.com",
+    "contraseña": "123456",
+    "rol": "USUARIO"
+}
+
+###
+
+### 2. INICIAR SESIÓN (LOGIN)
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "correo": "ana@gmail.com",
+    "contraseña": "123456"
+}
+
+### 3. SUBIR ARCHIVO PDF
+POST http://localhost:3000/api/archivos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE0MzEzMTcsImV4cCI6MTc5MTQ2MDExN30.9NCQU2JjKHfZ4vsxM14R0hF0pAOBpuf9z6hEl6CeFOc
+Content-Type: multipart/form-data; boundary=boundary_sistema_documental
+
+--boundary_sistema_documental
+Content-Disposition: form-data; name="archivo"; filename="proyecto.pdf"
+Content-Type: application/pdf
+
+< ./servidor/package.json
+
+--boundary_sistema_documental--
