@@ -111,7 +111,75 @@ const comprobarPermiso = async (
     return permiso.nivel === nivelNecesario;
 };
 
+const listarPermisosRecurso = async (
+    recursoTipo,
+    recursoId,
+    propietarioId
+) => {
+
+    // Solo el propietario puede consultar los permisos de su recurso
+    return await Permiso.find({
+        recursoTipo,
+        recursoId,
+        propietario: propietarioId,
+        activo: true
+    }).populate(
+        'usuario',
+        'nombre correo'
+    );
+};
+
+const retirarPermiso = async (
+    permisoId,
+    propietarioId
+) => {
+
+    // Busca el permiso y comprueba que pertenezca al propietario
+    const permiso = await Permiso.findOne({
+        _id: permisoId,
+        propietario: propietarioId,
+        activo: true
+    });
+
+    if (!permiso) {
+        throw new Error('El permiso no existe');
+    }
+
+    // En lugar de borrar el registro, se desactiva
+    permiso.activo = false;
+
+    return await permiso.save();
+};
+
+const modificarPermiso = async (
+    permisoId,
+    nuevoNivel,
+    propietarioId
+) => {
+
+    if (!['LECTURA', 'EDICION'].includes(nuevoNivel)) {
+        throw new Error('Nivel de permiso inválido');
+    }
+
+    const permiso = await Permiso.findOne({
+        _id: permisoId,
+        propietario: propietarioId,
+        activo: true
+    });
+
+    if (!permiso) {
+        throw new Error('El permiso no existe');
+    }
+
+    permiso.nivel = nuevoNivel;
+
+    return await permiso.save();
+};
+
 module.exports = {
     compartirRecurso,
-    comprobarPermiso
+    comprobarPermiso,
+    listarPermisosRecurso,
+    retirarPermiso,
+    modificarPermiso
 };

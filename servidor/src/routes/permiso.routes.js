@@ -12,4 +12,11 @@ router.post(
     permisoController.compartir
 );
 
+// Permite al propietario consultar quién tiene acceso
+router.get(
+    '/',
+    verificarToken,
+    permisoController.listar
+);
+
 module.exports = router;
