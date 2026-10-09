@@ -32,3 +32,26 @@ Content-Type: application/pdf
 < ./servidor/package.json
 
 --boundary_sistema_documental--
+
+### 4. REGISTRAR SEGUNDO USUARIO (CARLOS)
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Carlos Perez",
+    "correo": "carlos@gmail.com",
+    "contraseña": "123456",
+    "rol": "USUARIO"
+}
+### 5. COMPARTIR RECURSO (ANA COMPARTE A CARLOS)
+POST http://localhost:3000/api/permisos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE1ODIyNzcsImV4cCI6MTc5MTYxMTA3N30.JYiMYO5E_Y0kaLq1AS3wfZXmkJeVmcK4LsGHvkHJZcs
+Content-Type: application/json
+
+{
+    "recursoTipo": "ARCHIVO",
+    "recursoId": "6ac70e5e615e90538f82dd80",
+    "usuarioDestinoId": "6ac95e2370c066307c547bfa",
+    "nivel": "LECTURA"
+}
+
