@@ -19,4 +19,18 @@ router.get(
     permisoController.listar
 );
 
+// El propietario puede cambiar lectura por edición o viceversa
+router.put(
+    '/:id',
+    verificarToken,
+    permisoController.modificar
+);
+
+// El propietario puede retirar un permiso
+router.delete(
+    '/:id',
+    verificarToken,
+    permisoController.retirar
+);
+
 module.exports = router;
