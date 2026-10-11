@@ -9,8 +9,6 @@ Content-Type: application/json
     "rol": "USUARIO"
 }
 
-###
-
 ### 2. INICIAR SESIÓN (LOGIN)
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
@@ -45,7 +43,7 @@ Content-Type: application/json
 }
 ### 5. COMPARTIR RECURSO (ANA COMPARTE A CARLOS)
 POST http://localhost:3000/api/permisos
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE1ODIyNzcsImV4cCI6MTc5MTYxMTA3N30.JYiMYO5E_Y0kaLq1AS3wfZXmkJeVmcK4LsGHvkHJZcs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE3Mzg1MDIsImV4cCI6MTc5MTc2NzMwMn0.mgTt8kGLysyVm8-mqREo04tI_9Ha8o8k9-8iNb9En7c
 Content-Type: application/json
 
 {
@@ -54,4 +52,17 @@ Content-Type: application/json
     "usuarioDestinoId": "6ac95e2370c066307c547bfa",
     "nivel": "LECTURA"
 }
+
+### 6. PROBAR EL RENOMBRADO
+PUT http://localhost:3000/api/archivos/6ac70e5e615e90538f82dd80/renombrar
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE3Mzg1MDIsImV4cCI6MTc5MTc2NzMwMn0.mgTt8kGLysyVm8-mqREo04tI_9Ha8o8k9-8iNb9En7c
+Content-Type: application/json
+
+{
+    "nombre": "documento_importante.pdf"
+}
+
+### 7. PROBAR LA DESCARGA
+GET http://localhost:3000/api/archivos/6ac70e5e615e90538f82dd80/descargar
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE3Mzg1MDIsImV4cCI6MTc5MTc2NzMwMn0.mgTt8kGLysyVm8-mqREo04tI_9Ha8o8k9-8iNb9En7c
 
