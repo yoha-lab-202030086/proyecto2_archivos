@@ -1,6 +1,6 @@
 const archivoService = require('../services/archivo.service');
 
-// Recibe el archivo y manda al servicio para guardarlo
+// Recibe el archivo adjunto y lo manda al servicio para guardarlo
 const subir = async (req, res) => {
     try {
         const archivo = await archivoService.subirArchivo(
@@ -20,7 +20,7 @@ const subir = async (req, res) => {
     }
 };
 
-// Configura las cabeceras de descarga y transmitir el archivo binario
+// Configura las cabeceras de descarga y transmitir el archivo
 const descargar = async (req, res) => {
     try {
         const resultado = await archivoService.descargarArchivo(
@@ -28,11 +28,11 @@ const descargar = async (req, res) => {
             req.usuario.id
         );
 
-        // Tipo de formato y nombre original para la descarga
+
         res.setHeader('Content-Type', resultado.archivo.tipo);
         res.setHeader('Content-Disposition', `attachment; filename="${resultado.archivo.nombre}"`);
 
-        // Conecta el flujo del archivo con la respuesta del servidor
+        
         resultado.stream.pipe(res);
     } catch (error) {
         res.status(403).json({
@@ -61,13 +61,13 @@ const renombrar = async (req, res) => {
     }
 };
 
-// Recibe el ID del archivo y de la nueva carpeta para cambiar su ubicacion
+// Recibir el ID del archivo y de la nueva carpeta para cambiar su ubicación
 const mover = async (req, res) => {
     try {
         const archivo = await archivoService.moverArchivo(
             req.params.id,
-            req.usuario.id,
-            req.body.carpetaId
+            req.usuario.id,     // <-- El usuario va aquí (segundo parámetro)
+            req.body.carpetaId  // <-- La carpeta va aquí (tercer parámetro)
         );
 
         res.json({
@@ -81,9 +81,43 @@ const mover = async (req, res) => {
     }
 };
 
+
+// Solicita la lista completa de los archivos propios al servicio
+const listar = async (req, res) => {
+    try {
+        const archivos = await archivoService.listarArchivos(
+            req.usuario.id
+        );
+
+        res.json(archivos);
+    } catch (error) {
+        res.status(500).json({
+            mensaje: error.message
+        });
+    }
+};
+
+// Solicita los archivos que coincidan con el texto enviado por parametro
+const buscar = async (req, res) => {
+    try {
+        const archivos = await archivoService.buscarArchivos(
+            req.usuario.id,
+            req.query.texto || ''
+        );
+
+        res.json(archivos);
+    } catch (error) {
+        res.status(500).json({
+            mensaje: error.message
+        });
+    }
+};
+
 module.exports = {
     subir,
     descargar,
     renombrar,
-    mover
+    mover,
+    listar,
+    buscar
 };

@@ -1,6 +1,6 @@
 const carpetaService = require('../services/carpeta.service');
 
-// Se crea una carpeta usando el usuario que esta autenticado
+// Manda los datos al servicio para crear una carpeta con el usuario logueado
 const crear = async (req, res) => {
 
     try {
@@ -20,7 +20,7 @@ const crear = async (req, res) => {
     }
 };
 
-// Se muestra solamente las carpetas que pertenecen al usuario
+// Solicita las carpetas de un directorio especifico al servicio
 const listar = async (req, res) => {
 
     try {
@@ -42,7 +42,23 @@ const listar = async (req, res) => {
     }
 };
 
+// Solicita la lista completa de todas las carpetas del usuario sin filtros
+const listarTodas = async (req, res) => {
+    try {
+        const carpetas = await carpetaService.listarTodasLasCarpetas(
+            req.usuario.id
+        );
+
+        res.json(carpetas);
+    } catch (error) {
+        res.status(500).json({
+            mensaje: error.message
+        });
+    }
+};
+
 module.exports = {
     crear,
-    listar
+    listar,
+    listarTodas
 };

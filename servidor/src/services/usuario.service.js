@@ -1,25 +1,21 @@
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcryptjs');
 
-// Se crea el servicio para separar la lógica de los usuarios
+// Registrar una cuenta de usuario nueva asignando siempre el rol base por seguridad
 const registrarUsuario = async (datos) => {
-
-    const usuarioExistente = await Usuario.findOne({
-        correo: datos.correo.toLowerCase()
-    });
-
-    if (usuarioExistente) {
+    const correoExiste = await Usuario.findOne({ correo: datos.correo });
+    if (correoExiste) {
         throw new Error('El correo ya está registrado');
     }
 
-    // Se encripta la contraseña antes de guardarla
-    const contraseñaEncriptada = await bcrypt.hash(datos.contraseña, 10);
+    const salt = await bcrypt.genSalt(10);
+    const contraseñaEncriptada = await bcrypt.hash(datos.contraseña, salt);
 
     const usuario = new Usuario({
         nombre: datos.nombre,
-        correo: datos.correo.toLowerCase(),
+        correo: datos.correo,
         contraseña: contraseñaEncriptada,
-        rol: datos.rol || 'USUARIO'
+        rol: datos.rol || 'USUARIO'// 'USUARIO' Forzar rol base e impedir autoelevación de privilegios
     });
 
     return await usuario.save();

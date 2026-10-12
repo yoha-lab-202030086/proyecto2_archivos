@@ -4,8 +4,9 @@ const Usuario = require('../models/Usuario');
 const Carpeta = require('../models/Carpeta');
 const obtenerBucket = require('../config/gridfs');
 const { comprobarPermiso } = require('./permiso.service');
+const { registrarActividad } = require('./actividad.service');
 
-// Recibe el archivo en memoria y lo guarda directo en MongoDB con GridFS
+// Recibir el archivo en memoria y guardarlo en MongoDB con GridFS
 const subirArchivo = async (archivoRecibido, datos, usuarioId) => {
     if (!archivoRecibido) {
         throw new Error('No se recibió ningún archivo');
@@ -16,18 +17,12 @@ const subirArchivo = async (archivoRecibido, datos, usuarioId) => {
         throw new Error('El usuario no existe');
     }
 
-    // Validación del espacio disponible del usuario antes de la transferencia
     if (usuario.almacenamientoUsado + archivoRecibido.size > usuario.almacenamientoTotal) {
         throw new Error('No hay suficiente espacio de almacenamiento');
     }
 
-    // Validación de la existencia y disponibilidad de la carpeta destino
     if (datos.carpeta) {
-        const carpeta = await Carpeta.findOne({
-            _id: datos.carpeta,
-            propietario: usuarioId,
-            eliminada: false
-        });
+        const carpeta = await Carpeta.findOne({ _id: datos.carpeta, propietario: usuarioId, eliminada: false });
         if (!carpeta) {
             throw new Error('La carpeta no existe');
         }
@@ -36,23 +31,17 @@ const subirArchivo = async (archivoRecibido, datos, usuarioId) => {
     const bucket = obtenerBucket();
     const idGridFs = new mongoose.Types.ObjectId();
 
-    // Apertura del flujo de escritura hacia la colección archivos
     const stream = bucket.openUploadStream(archivoRecibido.originalname, {
         id: idGridFs,
-        metadata: {
-            propietario: new mongoose.Types.ObjectId(usuarioId),
-            tipo: archivoRecibido.mimetype
-        }
+        metadata: { propietario: new mongoose.Types.ObjectId(usuarioId), tipo: archivoRecibido.mimetype }
     });
 
-    // Controlador de la transferencia del búfer binario
     await new Promise((resolve, reject) => {
         stream.on('finish', resolve);
         stream.on('error', reject);
         stream.end(archivoRecibido.buffer);
     });
 
-    // Registro de los metadatos de organización en la colección convencional de archivos
     const archivo = new Archivo({
         nombre: archivoRecibido.originalname,
         tipo: archivoRecibido.mimetype,
@@ -64,57 +53,51 @@ const subirArchivo = async (archivoRecibido, datos, usuarioId) => {
 
     await archivo.save();
 
-    // Actualización acumulativa del almacenamiento consumido por el cliente
+    await registrarActividad({
+        usuario: usuarioId,
+        accion: 'SUBIR_ARCHIVO',
+        recursoTipo: 'ARCHIVO',
+        recursoId: archivo._id,
+        detalle: `Se subió el archivo ${archivo.nombre}`
+    });
+
     usuario.almacenamientoUsado += archivoRecibido.size;
     await usuario.save();
 
     return archivo;
 };
 
-// Busca el archivo y revisa si el usuario es el dueño o se lo compartieron para descargar
+// Revisa el permiso en el orden correcto y obtiene el flujo de GridFS
 const descargarArchivo = async (idArchivo, usuarioId) => {
-    const archivo = await Archivo.findOne({
-        _id: idArchivo,
-        eliminado: false
-    });
+    const archivo = await Archivo.findOne({ _id: idArchivo, eliminado: false });
 
     if (!archivo) {
         throw new Error('Archivo no encontrado');
     }
 
-    // Consulta externa al servicio de permisos para verificar autorizaciones compartidas
+    // Comprobación de permisos con el orden obligatorio de argumentos
     const tienePermiso = await comprobarPermiso(
+        usuarioId,
         'ARCHIVO',
         archivo._id,
-        usuarioId,
         'LECTURA'
     );
 
-    // Bloqueo de seguridad si quien solicita no es el dueño ni posee autorización
     if (archivo.propietario.toString() !== usuarioId && !tienePermiso) {
         throw new Error('No tienes permiso para descargar este archivo');
     }
 
     const bucket = obtenerBucket();
-
-    // Retorno de la información del archivo y el flujo binario de lectura desde GridFS
-    return {
-        archivo,
-        stream: bucket.openDownloadStream(archivo.gridFsId)
-    };
+    return { archivo, stream: bucket.openDownloadStream(archivo.gridFsId) };
 };
 
-// Busca el archivo por su ID y se cambia el nombre si pertenece al usuario
+// Buscar el archivo por su ID y cambiar el nombre
 const renombrarArchivo = async (idArchivo, usuarioId, nuevoNombre) => {
     if (!nuevoNombre || nuevoNombre.trim() === '') {
         throw new Error('El nombre del archivo es obligatorio');
     }
 
-    const archivo = await Archivo.findOne({
-        _id: idArchivo,
-        propietario: usuarioId,
-        eliminado: false
-    });
+    const archivo = await Archivo.findOne({ _id: idArchivo, propietario: usuarioId, eliminado: false });
 
     if (!archivo) {
         throw new Error('Archivo no encontrado o no tienes permiso');
@@ -123,41 +106,67 @@ const renombrarArchivo = async (idArchivo, usuarioId, nuevoNombre) => {
     archivo.nombre = nuevoNombre.trim();
     await archivo.save();
 
+    await registrarActividad({
+        usuario: usuarioId,
+        accion: 'RENOMBRAR_ARCHIVO',
+        recursoTipo: 'ARCHIVO',
+        recursoId: archivo._id,
+        detalle: `El archivo ahora se llama ${archivo.nombre}`
+    });
+
     return archivo;
 };
 
-// Cambia el ID de la carpeta actual por el ID de la nueva carpeta para mover el archivo
+// Cambiar la carpeta del archivo
 const moverArchivo = async (idArchivo, usuarioId, nuevaCarpetaId) => {
-    const archivo = await Archivo.findOne({
-        _id: idArchivo,
-        propietario: usuarioId,
-        eliminado: false
-    });
+    const archivo = await Archivo.findOne({ _id: idArchivo, propietario: usuarioId, eliminado: false });
 
     if (!archivo) {
         throw new Error('Archivo no encontrado o no tienes permiso');
     }
 
-    const carpeta = await Carpeta.findOne({
-        _id: nuevaCarpetaId,
-        propietario: usuarioId,
-        eliminada: false
-    });
+    const carpeta = await Carpeta.findOne({ _id: nuevaCarpetaId, propietario: usuarioId, eliminada: false });
 
     if (!carpeta) {
         throw new Error('La carpeta destino no existe');
     }
 
-    // Actualización del identificador de la carpeta padre
     archivo.carpeta = nuevaCarpetaId;
     await archivo.save();
 
+    await registrarActividad({
+        usuario: usuarioId,
+        accion: 'MOVER_ARCHIVO',
+        recursoTipo: 'ARCHIVO',
+        recursoId: archivo._id,
+        detalle: `El archivo fue movido a otra carpeta`
+    });
+
     return archivo;
+};
+
+// Consultar los archivos activos del usuario
+const listarArchivos = async (usuarioId) => {
+    return await Archivo.find({ propietario: usuarioId, eliminado: false }).populate('carpeta', 'nombre').sort({ fechaSubida: -1 });
+};
+
+// Buscar archivos usando filtros de comillas seguras para evitar fallas de sintaxis
+const buscarArchivos = async (usuarioId, texto) => {
+    return await Archivo.find({
+        propietario: usuarioId,
+        eliminado: false,
+        nombre: {
+            "\$regex": texto,
+            "\$options": "i"
+        }
+    }).populate('carpeta', 'nombre');
 };
 
 module.exports = {
     subirArchivo,
     descargarArchivo,
     renombrarArchivo,
-    moverArchivo
+    moverArchivo,
+    listarArchivos,
+    buscarArchivos
 };

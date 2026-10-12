@@ -8,6 +8,9 @@ const archivoRoutes = require('./routes/archivo.routes');
 const permisoRoutes = require('./routes/permiso.routes');
 const papeleraRoutes = require('./routes/papelera.routes');
 const actividadRoutes = require('./routes/actividad.routes');
+const almacenamientoRoutes = require('./routes/almacenamiento.routes');
+const reporteRoutes = require('./routes/reporte.routes');
+
 
 const app = express();
 
@@ -27,5 +30,7 @@ app.use('/api/archivos', archivoRoutes);
 app.use('/api/permisos', permisoRoutes);
 app.use('/api/papelera', papeleraRoutes);
 app.use('/api/actividades', actividadRoutes);
+app.use('/api/almacenamiento', almacenamientoRoutes);
+app.use('/api/reportes', reporteRoutes);
 
 module.exports = app;

@@ -13,21 +13,35 @@ router.post(
     archivoController.subir
 );
 
-// Descargar un archivo binario directamente desde GridFS
+// Obtiene la lista completa de archivos del usuario
+router.get(
+    '/',
+    verificarToken,
+    archivoController.listar
+);
+
+// Busca archivos por coincidencia de nombre
+router.get(
+    '/buscar',
+    verificarToken,
+    archivoController.buscar
+);
+
+// Descarga un archivo binario directamente desde GridFS
 router.get(
     '/:id/descargar',
     verificarToken,
     archivoController.descargar
 );
 
-// Renombrar un archivo
+// Renombra un archivo
 router.put(
     '/:id/renombrar',
     verificarToken,
     archivoController.renombrar
 );
 
-// Mover un archivo de carpeta
+// Mueve un archivo de carpeta
 router.put(
     '/:id/mover',
     verificarToken,
@@ -35,3 +49,4 @@ router.put(
 );
 
 module.exports = router;
+

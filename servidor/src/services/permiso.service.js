@@ -1,17 +1,11 @@
-const mongoose = require('mongoose');
 const Permiso = require('../models/Permiso');
 const Usuario = require('../models/Usuario');
 const Archivo = require('../models/Archivo');
 const Carpeta = require('../models/Carpeta');
+const { registrarActividad } = require('./actividad.service');
 
-const compartirRecurso = async (
-    recursoTipo,
-    recursoId,
-    usuarioDestinoId,
-    nivel,
-    propietarioId
-) => {
-
+// Crear o actualizar un permiso sobre un archivo o carpeta compartido
+const compartirRecurso = async (recursoTipo, recursoId, usuarioDestinoId, nivel, propietarioId) => {
     if (!['ARCHIVO', 'CARPETA'].includes(recursoTipo)) {
         throw new Error('Tipo de recurso inválido');
     }
@@ -20,160 +14,120 @@ const compartirRecurso = async (
         throw new Error('Nivel de permiso inválido');
     }
 
-    // Comprobación de que el usuario que recibe el permiso exista
-    const usuarioDestino = await Usuario.findById(usuarioDestinoId);
+    const usuarioDestino = await Usuario.findOne({
+        _id: usuarioDestinoId,
+        activo: true
+    });
 
     if (!usuarioDestino) {
-        throw new Error('El usuario destino no existe');
+        throw new Error('El usuario destino no existe o está inactivo');
     }
 
-    // Comprobación de que el propietario realmente sea dueño del recurso
+    if (propietarioId.toString() === usuarioDestinoId.toString()) {
+        throw new Error('No puedes compartir un recurso contigo mismo');
+    }
+
     let recurso;
-
     if (recursoTipo === 'ARCHIVO') {
-
-        recurso = await Archivo.findOne({
-            _id: recursoId,
-            propietario: propietarioId,
-            eliminado: false
-        });
-
+        recurso = await Archivo.findOne({ _id: recursoId, propietario: propietarioId, eliminado: false });
     } else {
-
-        recurso = await Carpeta.findOne({
-            _id: recursoId,
-            propietario: propietarioId,
-            eliminada: false
-        });
+        recurso = await Carpeta.findOne({ _id: recursoId, propietario: propietarioId, eliminada: false });
     }
 
     if (!recurso) {
-        throw new Error('El recurso no existe o no pertenece al propietario');
+        throw new Error('El recurso no existe o no te pertenece');
     }
 
-    // Evita que un usuario se comparta un recurso consigo mismo
-    if (propietarioId.toString() === usuarioDestinoId.toString()) {
-        throw new Error('No es necesario compartir el recurso con el propietario');
+    let permiso = await Permiso.findOne({ recursoTipo, recursoId, usuario: usuarioDestinoId, propietario: propietarioId });
+
+    if (permiso) {
+        permiso.nivel = nivel;
+        permiso.activo = true;
+        await permiso.save();
+    } else {
+        permiso = await Permiso.create({
+            recursoTipo,
+            recursoId,
+            propietario: propietarioId,
+            usuario: usuarioDestinoId,
+            nivel,
+            activo: true
+        });
     }
 
-    const permisoExistente = await Permiso.findOne({
+    await registrarActividad({
+        usuario: propietarioId,
+        accion: 'COMPARTIR_RECURSO',
         recursoTipo,
         recursoId,
-        usuario: usuarioDestinoId
+        detalle: `Recurso compartido con ${usuarioDestino.correo}`
     });
 
-    if (permisoExistente) {
-
-        permisoExistente.nivel = nivel;
-        permisoExistente.activo = true;
-
-        return await permisoExistente.save();
-    }
-
-    const permiso = new Permiso({
-        recursoTipo,
-        recursoId,
-        propietario: propietarioId,
-        usuario: usuarioDestinoId,
-        nivel
-    });
-
-    return await permiso.save();
+    return permiso;
 };
 
-const comprobarPermiso = async (
-    recursoTipo,
-    recursoId,
-    usuarioId,
-    nivelNecesario
-) => {
+// Comprobar si el usuario cuenta con los permisos necesarios para la lectura o edicion
+const comprobarPermiso = async (usuarioId, recursoTipo, recursoId, nivelRequerido) => {
+    const nivelesPermitidos = nivelRequerido === 'LECTURA' ? ['LECTURA', 'EDICION'] : ['EDICION'];
 
-    const permiso = await Permiso.findOne({
-        recursoTipo,
-        recursoId,
+    return Permiso.findOne({
         usuario: usuarioId,
-        activo: true
-    });
-
-    // Comprobación de que si no tiene permiso, no puede utilizar el recurso
-    if (!permiso) {
-        return false;
-    }
-
-    // El permiso de edición también permite leer
-    if (
-        nivelNecesario === 'LECTURA' &&
-        permiso.nivel === 'EDICION'
-    ) {
-        return true;
-    }
-
-    return permiso.nivel === nivelNecesario;
-};
-
-const listarPermisosRecurso = async (
-    recursoTipo,
-    recursoId,
-    propietarioId
-) => {
-
-    // Solo el propietario puede consultar los permisos de su recurso
-    return await Permiso.find({
         recursoTipo,
         recursoId,
-        propietario: propietarioId,
-        activo: true
-    }).populate(
-        'usuario',
-        'nombre correo'
-    );
-};
-
-const retirarPermiso = async (
-    permisoId,
-    propietarioId
-) => {
-
-    // Busca el permiso y comprueba que pertenezca al propietario
-    const permiso = await Permiso.findOne({
-        _id: permisoId,
-        propietario: propietarioId,
+        nivel: { "$in": nivelesPermitidos },
         activo: true
     });
-
-    if (!permiso) {
-        throw new Error('El permiso no existe');
-    }
-
-    // En lugar de borrar el registro, se desactiva
-    permiso.activo = false;
-
-    return await permiso.save();
 };
 
-const modificarPermiso = async (
-    permisoId,
-    nuevoNivel,
-    propietarioId
-) => {
+// Consultar la lista de permisos otorgados sobre un recurso específico
+const listarPermisosRecurso = async (recursoTipo, recursoId, propietarioId) => {
+    if (!['ARCHIVO', 'CARPETA'].includes(recursoTipo) || !recursoId) {
+        throw new Error('Debes indicar un tipo y un identificador de recurso válidos');
+    }
 
+    const filtro = { recursoTipo, recursoId, propietario: propietarioId, activo: true };
+
+    const recurso = recursoTipo === 'ARCHIVO'
+        ? await Archivo.findOne({ _id: recursoId, propietario: propietarioId })
+        : await Carpeta.findOne({ _id: recursoId, propietario: propietarioId });
+
+    if (!recurso) {
+        throw new Error('El recurso no existe o no te pertenece');
+    }
+
+    return Permiso.find(filtro).populate('usuario', 'nombre correo').sort({ createdAt: -1 });
+};
+
+// Desactivar un acceso compartido de forma logica
+const retirarPermiso = async (permisoId, propietarioId) => {
+    const permiso = await Permiso.findOne({ _id: permisoId, propietario: propietarioId, activo: true });
+
+    if (!permiso) {
+        throw new Error('Permiso no encontrado');
+    }
+
+    permiso.activo = false;
+    await permiso.save();
+
+    return permiso;
+};
+
+// Modificar el nivel de un permiso entre lectura y edicion
+const modificarPermiso = async (permisoId, nuevoNivel, propietarioId) => {
     if (!['LECTURA', 'EDICION'].includes(nuevoNivel)) {
         throw new Error('Nivel de permiso inválido');
     }
 
-    const permiso = await Permiso.findOne({
-        _id: permisoId,
-        propietario: propietarioId,
-        activo: true
-    });
+    const permiso = await Permiso.findOne({ _id: permisoId, propietario: propietarioId, activo: true });
 
     if (!permiso) {
-        throw new Error('El permiso no existe');
+        throw new Error('Permiso no encontrado');
     }
 
     permiso.nivel = nuevoNivel;
+    await permiso.save();
 
-    return await permiso.save();
+    return permiso;
 };
 
 module.exports = {
