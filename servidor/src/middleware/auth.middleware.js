@@ -1,40 +1,43 @@
 const jwt = require('jsonwebtoken');
+const Usuario = require('../models/Usuario');
 
-// Comprobacion de la existencia de un token válido
-const verificarToken = (req, res, next) => {
-
-    const encabezado = req.headers.authorization;
-
-    if (!encabezado) {
-        return res.status(401).json({
-            mensaje: 'No se proporcionó el token'
-        });
-    }
-
-    const partes = encabezado.split(' ');
-
-    const token = partes[1];
-
+// Verificar el token y comprobar que la cuenta siga activa en la base de datos
+const verificarToken = async (req, res, next) => {
     try {
+        const encabezado = req.headers.authorization;
 
-        const datosUsuario = jwt.verify(
-            token,
-            process.env.JWT_SECRET
-        );
+        if (!encabezado || !encabezado.startsWith('Bearer ')) {
+            return res.status(401).json({
+                mensaje: 'Debes iniciar sesión'
+            });
+        }
 
-        // Guarda los datos del usuario para usarlos en las siguientes capas
-        req.usuario = datosUsuario;
+        const token = encabezado.split(' ')[1];
+        const datos = jwt.verify(token, process.env.JWT_SECRET);
+
+        // Consultar el estado real de la cuenta en tiempo real
+        const usuario = await Usuario.findById(datos.id)
+            .select('_id nombre correo rol activo');
+
+        if (!usuario || !usuario.activo) {
+            return res.status(401).json({
+                mensaje: 'La cuenta no existe o está inactiva'
+            });
+        }
+
+        req.usuario = {
+            id: usuario._id.toString(),
+            rol: usuario.rol,
+            nombre: usuario.nombre,
+            correo: usuario.correo
+        };
 
         next();
-
     } catch (error) {
-
         return res.status(401).json({
             mensaje: 'Token inválido o expirado'
         });
     }
 };
 
-module.exports = {
-    verificarToken
-};
+module.exports = { verificarToken };

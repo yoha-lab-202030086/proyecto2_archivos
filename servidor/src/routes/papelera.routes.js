@@ -1,5 +1,4 @@
 const express = require('express');
-
 const papeleraController = require('../controllers/papelera.controller');
 const { verificarToken } = require('../middleware/auth.middleware');
 
@@ -22,6 +21,9 @@ router.put('/carpeta/:id/restaurar', verificarToken, papeleraController.restaura
 
 // Borrar de forma definitiva el archivo de GridFS
 router.delete('/archivo/:id/definitivo', verificarToken, papeleraController.eliminarArchivoDefinitivo);
+
+// Borrar de forma definitiva la carpeta y todo su contenido interior en cascada
+router.delete('/carpeta/:id/definitivo', verificarToken, papeleraController.eliminarCarpetaDefinitiva);
 
 module.exports = router;
 

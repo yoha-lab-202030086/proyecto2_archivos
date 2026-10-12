@@ -1,9 +1,24 @@
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcryptjs');
 
-// Registrar una cuenta de usuario nueva asignando siempre el rol base por seguridad
+// Registrar una cuenta nueva validando campos obligatorios y contraseñas seguras
 const registrarUsuario = async (datos) => {
-    const correoExiste = await Usuario.findOne({ correo: datos.correo });
+    if (!datos.nombre || !datos.nombre.trim()) {
+        throw new Error('El nombre es obligatorio');
+    }
+
+    if (!datos.correo || !datos.correo.trim()) {
+        throw new Error('El correo es obligatorio');
+    }
+
+    // Comprobar la longitud minima de seguridad de la contraseña
+    if (!datos.contraseña || datos.contraseña.length < 8) {
+        throw new Error('La contraseña debe tener al menos 8 caracteres');
+    }
+
+    const correo = datos.correo.trim().toLowerCase();
+    const correoExiste = await Usuario.findOne({ correo });
+
     if (correoExiste) {
         throw new Error('El correo ya está registrado');
     }
@@ -12,14 +27,15 @@ const registrarUsuario = async (datos) => {
     const contraseñaEncriptada = await bcrypt.hash(datos.contraseña, salt);
 
     const usuario = new Usuario({
-        nombre: datos.nombre,
-        correo: datos.correo,
+        nombre: datos.nombre.trim(),
+        correo,
         contraseña: contraseñaEncriptada,
-        rol: datos.rol || 'USUARIO'// 'USUARIO' Forzar rol base e impedir autoelevación de privilegios
+        rol: 'USUARIO' 
     });
 
     return await usuario.save();
 };
+
 
 const buscarPorCorreo = async (correo) => {
     return await Usuario.findOne({

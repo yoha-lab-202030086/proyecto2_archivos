@@ -50,6 +50,19 @@ const eliminarArchivoDefinitivo = async (req, res) => {
     }
 };
 
+// Procesar el borrado total y permanente de la carpeta y sus subdirectorios
+const eliminarFolderDefinitivo = async (req, res) => {
+    try {
+        const resultado = await papeleraService.eliminarCarpetaDefinitiva(
+            req.params.id,
+            req.usuario.id
+        );
+        res.json(resultado);
+    } catch (error) {
+        res.status(400).json({ mensaje: error.message });
+    }
+};
+
 // Solicitar al servicio las listas unificadas de todo lo que está borrado
 const listar = async (req, res) => {
     try {
@@ -67,5 +80,6 @@ module.exports = {
     restaurarArchivo,
     restaurarCarpeta,
     eliminarArchivoDefinitivo,
+    eliminarCarpetaDefinitiva: eliminarFolderDefinitivo, // Exportacion del Paso 142.2
     listar
 };
