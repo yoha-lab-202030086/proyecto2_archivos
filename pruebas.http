@@ -8,8 +8,6 @@ Content-Type: application/json
     "contraseña": "123456"
 }
 
-###
-
 ### 2. CREAR CARPETA
 POST http://localhost:3000/api/carpetas
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE3NTcxODcsImV4cCI6MTc5MTc4NTk4N30.QgIbQWpVRlKLgN3F5vgIxAZuJcW1VDNnoCQsPJIlmmU
@@ -18,8 +16,6 @@ Content-Type: application/json
 {
     "nombre": "Documentos Oficiales"
 }
-
-###
 
 ### 3. SUBIR ARCHIVO PDF
 POST http://localhost:3000/api/archivos
@@ -34,8 +30,6 @@ Content-Type: application/pdf
 
 --boundary_sistema_documental--
 
-###
-
 ### 4. CREAR USUARIO ADMINISTRADOR DE PRUEBAS
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
@@ -47,8 +41,6 @@ Content-Type: application/json
     "rol": "ADMINISTRADOR"
 }
 
-###
-
 ### 4-B. INICIAR SESIÓN (LOGIN ADMINISTRADOR)
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
@@ -57,8 +49,6 @@ Content-Type: application/json
     "correo": "admin@gmail.com",
     "contraseña": "123456"
 }
-
-###
 
 ### 5. DESCARGAR ARCHIVO DESDE GRIDFS
 GET http://localhost:3000/api/archivos/6acc0c09af4a2158191e827a/descargar
@@ -121,3 +111,51 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzN
 ### 15. ELIMINACIÓN DEFINITIVA DE CARPETA (PASO 143)
 DELETE http://localhost:3000/api/papelera/carpeta/6acc0bcaaf4a2158191e8277/definitivo
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE4NDIyNzEsImV4cCI6MTc5MTg3MTA3MX0.Ovbp6VNdHImKz9gnSd75SSkFgTELMYko_vqlCG5gea0
+
+### 16. REPORTE: CANTIDAD POR TIPO
+GET http://localhost:3000/api/reportes/archivos-por-tipo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+
+### 17. REPORTE: ARCHIVOS POR FECHAS
+GET http://localhost:3000/api/reportes/archivos-por-fecha?fechaInicio=2026-01-01&fechaFin=2026-12-31
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+
+### 18. REPORTE: ARCHIVOS CON MÁS OPERACIONES
+GET http://localhost:3000/api/reportes/archivos-mas-operaciones
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+
+### 19. REPORTE: ESPACIO POR TIPO
+GET http://localhost:3000/api/reportes/almacenamiento-por-tipo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+
+### 20. REPORTE: USUARIOS CON MÁS ARCHIVOS
+GET http://localhost:3000/api/reportes/usuarios-mas-archivos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+
+### 21. REPORTE: PORCENTAJE USADO POR USUARIO
+GET http://localhost:3000/api/reportes/porcentaje-almacenamiento
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+
+### 22. REPORTE: USUARIOS QUE MÁS COMPARTEN
+GET http://localhost:3000/api/reportes/usuarios-mas-comparten
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+
+### 23. REPORTE: RECURSOS MÁS COMPARTIDOS
+GET http://localhost:3000/api/reportes/recursos-mas-compartidos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+
+### 24. REPORTE: ARCHIVOS NO COMPARTIDOS
+GET http://localhost:3000/api/reportes/archivos-no-compartidos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+
+### 25. REPORTE: CARPETAS CON MÁS ARCHIVOS
+GET http://localhost:3000/api/reportes/carpetas-mas-archivos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+
+### 26. REPORTE: ACTIVIDADES POR PERIODO
+GET http://localhost:3000/api/reportes/actividades-por-periodo?periodo=mes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+
+### 27. REPORTE: ACCIONES PRINCIPALES
+GET http://localhost:3000/api/reportes/acciones-principales
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw

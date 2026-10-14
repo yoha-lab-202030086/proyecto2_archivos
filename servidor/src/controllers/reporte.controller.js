@@ -1,46 +1,112 @@
 const reporteService = require('../services/reporte.service');
 
-// Obtener los datos de los diez documentos de mayor tamaño
-const archivosMasGrandes = async (req, res) => {
-    try {
-        const datos = await reporteService.obtenerArchivosMasGrandes();
-        res.json(datos);
-    } catch (error) {
-        res.status(500).json({
-            mensaje: 'No se pudo generar el reporte de archivos',
-            detalle: error.message
-        });
-    }
+// Procesar de forma generica las peticiones de los reportes analiticos
+const ejecutar = (metodo, obtenerArgumentos = () => []) => {
+    return async (req, res) => {
+        try {
+            const argumentos = obtenerArgumentos(req);
+            const resultado = await reporteService[metodo](...argumentos);
+            return res.json(resultado);
+        } catch (error) {
+            // Determinar el codigo de error segun el tipo de fallo detectado
+            const codigo = [
+                'CastError',
+                'ValidationError'
+            ].includes(error.name) || error.name === 'Error'
+                ? 400
+                : 500;
+
+            return res.status(codigo).json({
+                mensaje: error.message || 'No se pudo generar el reporte'
+            });
+        }
+    };
 };
 
-// Obtener los datos del espacio consumido desglosado por usuario
-const almacenamientoPorUsuario = async (req, res) => {
-    try {
-        const datos = await reporteService.obtenerAlmacenamientoPorUsuario();
-        res.json(datos);
-    } catch (error) {
-        res.status(500).json({
-            mensaje: 'No se pudo generar el reporte de almacenamiento',
-            detalle: error.message
-        });
-    }
-};
+const archivosMasGrandes = ejecutar('obtenerArchivosMasGrandes');
 
-// Obtener los datos de los tipos de acciones acumuladas en el sistema
-const actividadesPorTipo = async (req, res) => {
-    try {
-        const datos = await reporteService.obtenerActividadesPorTipo();
-        res.json(datos);
-    } catch (error) {
-        res.status(500).json({
-            mensaje: 'No se pudo generar el reporte de actividades',
-            detalle: error.message
-        });
-    }
-};
+const archivosPorTipo = ejecutar('obtenerArchivosPorTipo');
+
+const archivosPorFecha = ejecutar(
+    'obtenerArchivosPorFecha',
+    req => [req.query.fechaInicio, req.query.fechaFin]
+);
+
+const archivosMasOperaciones = ejecutar('obtenerArchivosMasOperaciones');
+
+const almacenamientoPorTipo = ejecutar('obtenerAlmacenamientoPorTipo');
+
+const usuariosMasArchivos = ejecutar('obtenerUsuariosMasArchivos');
+
+const almacenamientoPorUsuario = ejecutar('obtenerAlmacenamientoPorUsuario');
+
+const porcentajeAlmacenamiento = ejecutar('obtenerPorcentajeAlmacenamiento');
+
+const usuariosMasComparten = ejecutar('obtenerUsuariosMasComparten');
+
+const recursosMasCompartidos = ejecutar('obtenerRecursosMasCompartidos');
+
+const compartidosPorUsuario = ejecutar(
+    'obtenerCompartidosPorUsuario',
+    req => [req.params.usuarioId]
+);
+
+const compartidosConUsuario = ejecutar(
+    'obtenerCompartidosConUsuario',
+    req => [req.params.usuarioId]
+);
+
+const archivosNoCompartidos = ejecutar('obtenerArchivosNoCompartidos');
+
+const carpetasMasArchivos = ejecutar('obtenerCarpetasMasArchivos');
+
+const almacenamientoCarpetasPrincipales = ejecutar(
+    'obtenerAlmacenamientoCarpetasPrincipales',
+    req => [req.params.usuarioId]
+);
+
+const contenidoCarpeta = ejecutar(
+    'obtenerContenidoCarpeta',
+    req => [req.params.carpetaId, req.params.usuarioId]
+);
+
+const actividadUsuario = ejecutar(
+    'obtenerActividadUsuario',
+    req => [
+        req.params.usuarioId,
+        req.query.fechaInicio,
+        req.query.fechaFin
+    ]
+);
+
+const actividadesPorTipo = ejecutar('obtenerActividadesPorTipo');
+
+const actividadesPorPeriodo = ejecutar(
+    'obtenerActividadesPorPeriodo',
+    req => [req.query.periodo || 'mes']
+);
+
+const accionesPrincipales = ejecutar('obtenerAccionesPrincipales');
 
 module.exports = {
     archivosMasGrandes,
+    archivosPorTipo,
+    archivosPorFecha,
+    archivosMasOperaciones,
+    almacenamientoPorTipo,
+    usuariosMasArchivos,
     almacenamientoPorUsuario,
-    actividadesPorTipo
+    porcentajeAlmacenamiento,
+    usuariosMasComparten,
+    recursosMasCompartidos,
+    compartidosPorUsuario,
+    compartidosConUsuario,
+    archivosNoCompartidos,
+    carpetasMasArchivos,
+    almacenamientoCarpetasPrincipales,
+    contenidoCarpeta,
+    actividadUsuario,
+    actividadesPorTipo,
+    actividadesPorPeriodo,
+    accionesPrincipales
 };
