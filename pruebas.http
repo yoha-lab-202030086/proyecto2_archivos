@@ -46,9 +46,10 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "correo": "admin@gmail.com",
-    "contraseña": "123456"
+  "correo": "demo.admin@documental.local",
+  "contraseña": "Demo1234!"
 }
+
 
 ### 5. DESCARGAR ARCHIVO DESDE GRIDFS
 GET http://localhost:3000/api/archivos/6acc0c09af4a2158191e827a/descargar
@@ -98,15 +99,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2M
 
 ### 12. CONSULTAR REPORTE: ARCHIVOS MÁS GRANDES
 GET http://localhost:3000/api/reportes/archivos-mas-grandes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTE4MjgxMDQsImV4cCI6MTc5MTg1NjkwNH0.OUVH8-0vKT8C0AFKY7lcsFOprKfsyMHqQ_D9ECTbbEs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTMwMzYsImV4cCI6MTc5MjA0MTgzNn0.VkICLXROdoaoDUB0uVQxxZgu1nL1ZhIqHHWz_9gzlSk
 
 ### 13. CONSULTAR REPORTE: ALMACENAMIENTO POR USUARIO
 GET http://localhost:3000/api/reportes/almacenamiento-usuarios
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTE4MjgxMDQsImV4cCI6MTc5MTg1NjkwNH0.OUVH8-0vKT8C0AFKY7lcsFOprKfsyMHqQ_D9ECTbbEs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTMwMzYsImV4cCI6MTc5MjA0MTgzNn0.VkICLXROdoaoDUB0uVQxxZgu1nL1ZhIqHHWz_9gzlSk
 
 ### 14. CONSULTAR REPORTE: ACTIVIDADES POR TIPO
 GET http://localhost:3000/api/reportes/actividades-por-tipo
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTE4MjgxMDQsImV4cCI6MTc5MTg1NjkwNH0.OUVH8-0vKT8C0AFKY7lcsFOprKfsyMHqQ_D9ECTbbEs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTMwMzYsImV4cCI6MTc5MjA0MTgzNn0.VkICLXROdoaoDUB0uVQxxZgu1nL1ZhIqHHWz_9gzlSk
 
 ### 15. ELIMINACIÓN DEFINITIVA DE CARPETA (PASO 143)
 DELETE http://localhost:3000/api/papelera/carpeta/6acc0bcaaf4a2158191e8277/definitivo
