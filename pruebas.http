@@ -19,7 +19,7 @@ Content-Type: application/json
 
 ### 3. SUBIR ARCHIVO PDF
 POST http://localhost:3000/api/archivos
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE3NTcxODcsImV4cCI6MTc5MTc4NTk4N30.QgIbQWpVRlKLgN3F5vgIxAZuJcW1VDNnoCQsPJIlmmU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZDNlZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIwOTg3NTgsImV4cCI6MTc5MjEyNzU1OH0.LYEfLoMCkHMInUz1MfpkOdG5-kGJeQnHoHkJVcQ5sm4
 Content-Type: multipart/form-data; boundary=boundary_sistema_documental
 
 --boundary_sistema_documental
@@ -53,11 +53,10 @@ Content-Type: application/json
 
 ### 5. DESCARGAR ARCHIVO DESDE GRIDFS
 GET http://localhost:3000/api/archivos/6acc0c09af4a2158191e827a/descargar
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE3NTcxODcsImV4cCI6MTc5MTc4NTk4N30.QgIbQWpVRlKLgN3F5vgIxAZuJcW1VDNnoCQsPJIlmmU
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZGZjZjJlYjdmZDYyMWFkOWZhZiIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMDA4ODEsImV4cCI6MTc5MjEyOTY4MX0.T_GrkdTqCv_wUyS1sSiCxx-mTOAg2wqa4liPnhjgJN0
 ### 6. RENOMBRAR ARCHIVO
 PUT http://localhost:3000/api/archivos/6acc0c09af4a2158191e827a/renombrar
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE3NTcxODcsImV4cCI6MTc5MTc4NTk4N30.QgIbQWpVRlKLgN3F5vgIxAZuJcW1VDNnoCQsPJIlmmU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZGZjZjJlYjdmZDYyMWFkOWZhZiIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMDA4ODEsImV4cCI6MTc5MjEyOTY4MX0.T_GrkdTqCv_wUyS1sSiCxx-mTOAg2wqa4liPnhjgJN0
 Content-Type: application/json
 
 {
@@ -66,7 +65,7 @@ Content-Type: application/json
 
 ### 7. MOVER ARCHIVO A LA CARPETA CREADA
 PUT http://localhost:3000/api/archivos/6acc0c09af4a2158191e827a/mover
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE3NTcxODcsImV4cCI6MTc5MTc4NTk4N30.QgIbQWpVRlKLgN3F5vgIxAZuJcW1VDNnoCQsPJIlmmU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZGZjZjJlYjdmZDYyMWFkOWZhZiIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMDA4ODEsImV4cCI6MTc5MjEyOTY4MX0.T_GrkdTqCv_wUyS1sSiCxx-mTOAg2wqa4liPnhjgJN0
 Content-Type: application/json
 
 {
@@ -109,7 +108,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M
 GET http://localhost:3000/api/reportes/actividades-por-tipo
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTMwMzYsImV4cCI6MTc5MjA0MTgzNn0.VkICLXROdoaoDUB0uVQxxZgu1nL1ZhIqHHWz_9gzlSk
 
-### 15. ELIMINACIÓN DEFINITIVA DE CARPETA (PASO 143)
+### 15. ELIMINACIÓN DEFINITIVA DE CARPETA 
 DELETE http://localhost:3000/api/papelera/carpeta/6acc0bcaaf4a2158191e8277/definitivo
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE4NDIyNzEsImV4cCI6MTc5MTg3MTA3MX0.Ovbp6VNdHImKz9gnSd75SSkFgTELMYko_vqlCG5gea0
 
@@ -131,32 +130,127 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzN
 
 ### 20. REPORTE: USUARIOS CON MÁS ARCHIVOS
 GET http://localhost:3000/api/reportes/usuarios-mas-archivos
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
 ### 21. REPORTE: PORCENTAJE USADO POR USUARIO
 GET http://localhost:3000/api/reportes/porcentaje-almacenamiento
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
 
 ### 22. REPORTE: USUARIOS QUE MÁS COMPARTEN
 GET http://localhost:3000/api/reportes/usuarios-mas-comparten
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
 ### 23. REPORTE: RECURSOS MÁS COMPARTIDOS
 GET http://localhost:3000/api/reportes/recursos-mas-compartidos
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
 ### 24. REPORTE: ARCHIVOS NO COMPARTIDOS
 GET http://localhost:3000/api/reportes/archivos-no-compartidos
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
 ### 25. REPORTE: CARPETAS CON MÁS ARCHIVOS
 GET http://localhost:3000/api/reportes/carpetas-mas-archivos
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
 ### 26. REPORTE: ACTIVIDADES POR PERIODO
 GET http://localhost:3000/api/reportes/actividades-por-periodo?periodo=mes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
 ### 27. REPORTE: ACCIONES PRINCIPALES
 GET http://localhost:3000/api/reportes/acciones-principales
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
+
+### 28. PROPIETARIO
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "correo": "demo.usuario1@documental.local",
+  "contraseña": "Demo1234!"
+}
+
+### 28. PROPIETARIO
+
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Prueba Uno",
+    "correo": "propietario@gmail.com",
+    "contraseña": "clave1234"
+}
+
+### 29. LECTOR
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Prueba Dos",
+    "correo": "lector@gmail.com",
+    "contraseña": "clave1234"
+}
+
+### 30. EDITOR
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Prueba Tres",
+    "correo": "editor@gmail.com",
+    "contraseña": "clave1234"
+}
+
+### 31. TOKEN PROPIETARIO
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "correo": "propietario@gmail.com",
+    "contraseña": "clave1234"
+}
+
+### 32. TOKEN LECTOR
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "correo": "lector@gmail.com",
+    "contraseña": "clave1234"
+}
+
+### 33. TOKEN EDITOR
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "correo": "editor@gmail.com",
+    "contraseña": "clave1234"
+}
+
+### 34. ADMINSTRADOR
+
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Admin Control",
+    "correo": "admin_pruebas@gmail.com",
+    "contraseña": "clave1234"
+}
+
+### 35. ADM
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "correo": "admin_pruebas@gmail.com",
+    "contraseña": "clave1234"
+}
+
+### 31. ASIGNAR ACCESO LECTURA
+POST http://localhost:3000/api/permisos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZGZjZjJlYjdmZDYyMWFkOWZhZiIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMDA4ODEsImV4cCI6MTc5MjEyOTY4MX0.T_GrkdTqCv_wUyS1sSiCxx-mTOAg2wqa4liPnhjgJN0
+Content-Type: application/json
+
+{
+    "recursoTipo": "ARCHIVO",
+    "recursoId": "6ad141e5f2eb7fd621ad9fb4",
+    "usuarioDestinoId": "6ad13dfcf2eb7fd621ad9faf",
+    "nivel": "LECTURA"
+}
+
+

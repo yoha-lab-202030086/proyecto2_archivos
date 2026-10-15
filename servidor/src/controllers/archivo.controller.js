@@ -1,4 +1,5 @@
 const archivoService = require('../services/archivo.service');
+const { comprobarPermiso } = require('../services/permiso.service');
 
 // Recibe el archivo adjunto y lo manda al servicio para guardarlo
 const subir = async (req, res) => {
@@ -44,6 +45,8 @@ const descargar = async (req, res) => {
 // Recibe el nuevo nombre y lo manda a actualizar en la base de datos
 const renombrar = async (req, res) => {
     try {
+    await comprobarPermiso(req.usuario.id, 'ARCHIVO', req.params.id, 'EDICION');
+
         const archivo = await archivoService.renombrarArchivo(
             req.params.id,
             req.usuario.id,
@@ -64,6 +67,7 @@ const renombrar = async (req, res) => {
 // Recibir el ID del archivo y de la nueva carpeta para cambiar su ubicación
 const mover = async (req, res) => {
     try {
+        await comprobarPermiso(req.usuario.id, 'ARCHIVO', req.params.id, 'EDICION');
         const archivo = await archivoService.moverArchivo(
             req.params.id,
             req.usuario.id,     // <-- El usuario va aquí (segundo parámetro)
