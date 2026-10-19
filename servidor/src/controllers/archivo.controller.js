@@ -1,7 +1,7 @@
 const archivoService = require('../services/archivo.service');
 const { comprobarPermiso } = require('../services/permiso.service');
 
-// Recibe el archivo adjunto y lo manda al servicio para guardarlo
+// 1. Recibe el archivo adjunto y lo manda al servicio para guardarlo
 const subir = async (req, res) => {
     try {
         const archivo = await archivoService.subirArchivo(
@@ -21,7 +21,7 @@ const subir = async (req, res) => {
     }
 };
 
-// Configura las cabeceras de descarga y transmitir el archivo
+// 2. Configura las cabeceras de descarga y transmitir el archivo
 const descargar = async (req, res) => {
     try {
         const resultado = await archivoService.descargarArchivo(
@@ -29,10 +29,8 @@ const descargar = async (req, res) => {
             req.usuario.id
         );
 
-
         res.setHeader('Content-Type', resultado.archivo.tipo);
         res.setHeader('Content-Disposition', `attachment; filename="${resultado.archivo.nombre}"`);
-
         
         resultado.stream.pipe(res);
     } catch (error) {
@@ -42,15 +40,24 @@ const descargar = async (req, res) => {
     }
 };
 
-// Recibe el nuevo nombre y lo manda a actualizar en la base de datos
+// 3. Recibe el nuevo nombre y lo manda a actualizar en la base de datos
 const renombrar = async (req, res) => {
     try {
-    await comprobarPermiso(req.usuario.id, 'ARCHIVO', req.params.id, 'EDICION');
+        const idArchivo = req.params.id;
+        const usuarioId = req.usuario.id;
+        const { nombre } = req.body;
+
+        // Validar si es el dueño directo o si posee un permiso compartido de EDICION
+        const tieneAcceso = await comprobarPermiso(usuarioId, 'ARCHIVO', idArchivo, 'EDICION');
+        
+        if (!tieneAcceso) {
+            return res.status(403).json({ mensaje: 'No tienes acceso a este recurso' });
+        }
 
         const archivo = await archivoService.renombrarArchivo(
-            req.params.id,
-            req.usuario.id,
-            req.body.nombre
+            idArchivo,
+            usuarioId,
+            nombre
         );
 
         res.json({
@@ -58,20 +65,28 @@ const renombrar = async (req, res) => {
             archivo
         });
     } catch (error) {
-        res.status(400).json({
-            mensaje: error.message
-        });
+        res.status(400).json({ mensaje: error.message });
     }
 };
 
-// Recibir el ID del archivo y de la nueva carpeta para cambiar su ubicación
+// 4. Recibir el ID del archivo y de la nueva carpeta para cambiar su ubicación
 const mover = async (req, res) => {
     try {
-        await comprobarPermiso(req.usuario.id, 'ARCHIVO', req.params.id, 'EDICION');
+        const idArchivo = req.params.id;
+        const usuarioId = req.usuario.id;
+        const { carpetaId } = req.body;
+
+        // Validar si es el dueño directo o si posee un permiso compartido de EDICION
+        const tieneAcceso = await comprobarPermiso(usuarioId, 'ARCHIVO', idArchivo, 'EDICION');
+        
+        if (!tieneAcceso) {
+            return res.status(403).json({ mensaje: 'No tienes acceso a este recurso' });
+        }
+
         const archivo = await archivoService.moverArchivo(
-            req.params.id,
-            req.usuario.id,     // <-- El usuario va aquí (segundo parámetro)
-            req.body.carpetaId  // <-- La carpeta va aquí (tercer parámetro)
+            idArchivo,
+            usuarioId,     
+            carpetaId  
         );
 
         res.json({
@@ -79,14 +94,11 @@ const mover = async (req, res) => {
             archivo
         });
     } catch (error) {
-        res.status(400).json({
-            mensaje: error.message
-        });
+        res.status(400).json({ mensaje: error.message });
     }
 };
 
-
-// Solicita la lista completa de los archivos propios al servicio
+// 5. Solicita la lista completa de los archivos propios al servicio
 const listar = async (req, res) => {
     try {
         const archivos = await archivoService.listarArchivos(
@@ -101,7 +113,7 @@ const listar = async (req, res) => {
     }
 };
 
-// Solicita los archivos que coincidan con el texto enviado por parametro
+// 6. Solicita los archivos que coincidan con el texto enviado por parametro
 const buscar = async (req, res) => {
     try {
         const archivos = await archivoService.buscarArchivos(

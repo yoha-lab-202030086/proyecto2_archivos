@@ -66,17 +66,60 @@ const compartirRecurso = async (recursoTipo, recursoId, usuarioDestinoId, nivel,
     return permiso;
 };
 
-// Comprobar si el usuario cuenta con los permisos necesarios para la lectura o edicion
 const comprobarPermiso = async (usuarioId, recursoTipo, recursoId, nivelRequerido) => {
-    const nivelesPermitidos = nivelRequerido === 'LECTURA' ? ['LECTURA', 'EDICION'] : ['EDICION'];
+    
+    // 1. Validar existencia del recurso y que NO esté en la papelera
+    let recurso;
+    if (recursoTipo === 'ARCHIVO') {
+        // Ajusta 'eliminado' según el nombre exacto de la bandera en tu modelo de Archivo
+        recurso = await Archivo.findOne({ _id: recursoId });
+        if (!recurso || recurso.eliminado === true) {
+            throw new Error('El archivo no existe o se encuentra en la papelera');
+        }
+    } else {
+        // Ajusta 'eliminada' según el nombre exacto de la bandera en tu modelo de Carpeta
+        recurso = await Carpeta.findOne({ _id: recursoId });
+        if (!recurso || recurso.eliminada === true) {
+            throw new Error('La carpeta no existe o se encuentra en la papelera');
+        }
+    }
 
-    return Permiso.findOne({
+    // 2. Validar propiedad directa (Si eres el dueño, tienes acceso total)
+    if (recurso.propietario.toString() === usuarioId.toString()) {
+        return true; 
+    }
+
+    // Si el controlador exige ser PROPIETARIO y no es el dueño, rechazar inmediatamente
+    if (nivelRequerido === 'PROPIETARIO') {
+        throw new Error('Operación exclusiva del propietario del recurso');
+    }
+
+    // 3. Evaluar si existe un permiso compartido activo directo
+    const permiso = await Permiso.findOne({
         usuario: usuarioId,
         recursoTipo,
         recursoId,
-        nivel: { "$in": nivelesPermitidos },
         activo: true
     });
+    
+    if (!permiso) {
+        throw new Error('No tienes acceso a este recurso'); 
+    }
+
+    // 4. Evaluar la jerarquía de accesos requeridos para usuarios invitados
+    if (nivelRequerido === 'LECTURA') {
+        if (permiso.nivel === 'LECTURA' || permiso.nivel === 'EDICION') {
+            return true;
+        }
+    }
+
+    if (nivelRequerido === 'EDICION') {
+        if (permiso.nivel === 'EDICION') {
+            return true;
+        }
+    }
+
+    throw new Error('No cuentas con los permisos suficientes para esta acción');
 };
 
 // Consultar la lista de permisos otorgados sobre un recurso específico
@@ -109,7 +152,16 @@ const retirarPermiso = async (permisoId, propietarioId) => {
     permiso.activo = false;
     await permiso.save();
 
-    return permiso;
+    await registrarActividad({
+    usuario: propietarioId,
+    accion: 'RETIRAR_PERMISO',
+    recursoTipo: permiso.recursoTipo,
+    recursoId: permiso.recursoId,
+    detalle: `Se retiró el permiso del usuario ${permiso.usuario}`
+});
+
+return permiso;
+
 };
 
 // Modificar el nivel de un permiso entre lectura y edicion
@@ -126,6 +178,16 @@ const modificarPermiso = async (permisoId, nuevoNivel, propietarioId) => {
 
     permiso.nivel = nuevoNivel;
     await permiso.save();
+
+await registrarActividad({
+    usuario: propietarioId,
+    accion: 'MODIFICAR_PERMISO',
+    recursoTipo: permiso.recursoTipo,
+    recursoId: permiso.recursoId,
+    detalle: `El permiso se cambió a ${permiso.nivel}`
+});
+
+
 
     return permiso;
 };

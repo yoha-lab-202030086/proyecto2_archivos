@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Carpeta = require('../models/Carpeta');
+const { registrarActividad } = require('./actividad.service');
+
 
 // Crear una carpeta nueva aplicando controles en el nombre y en las referencias padres
 const crearCarpeta = async (datos, usuarioId) => {
@@ -35,6 +37,16 @@ const crearCarpeta = async (datos, usuarioId) => {
     });
 
     await carpeta.save();
+
+    await registrarActividad({
+    usuario: usuarioId,
+    accion: 'CREAR_CARPETA',
+    recursoTipo: 'CARPETA',
+    recursoId: carpeta._id,
+    detalle: `Se creó la carpeta ${carpeta.nombre}`
+});
+
+
 
     // Validar que la carpeta creada no intente referenciarse a si misma como padre
     if (carpeta.carpetaPadre && carpeta.carpetaPadre.toString() === carpeta._id.toString()) {
