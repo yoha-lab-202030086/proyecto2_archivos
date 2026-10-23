@@ -1,0 +1,87 @@
+:host {
+  display: block;
+  font-family: Arial, sans-serif;
+}
+
+.pagina {
+  max-width: 1000px;
+  margin: auto;
+  padding: 28px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+h1, h2 {
+  color: #172554;
+}
+
+p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+button {
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #2454b8;
+  color: white;
+  cursor: pointer;
+}
+
+.tarjeta {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+}
+
+details {
+  margin-top: 20px;
+}
+
+pre {
+  overflow: auto;
+  padding: 14px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.mensaje {
+  color: #b91c1c;
+}
+
+.dato {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dato span {
+  color: #64748b;
+}
+
+.barra {
+  height: 14px;
+  margin-top: 22px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #e2e8f0;
+}
+
+.progreso {
+  height: 100%;
+  border-radius: 10px;
+  background: #2454b8;
+  transition: width 0.2s ease;
+}

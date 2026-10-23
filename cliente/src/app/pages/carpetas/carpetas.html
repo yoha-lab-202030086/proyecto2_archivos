@@ -1,0 +1,69 @@
+<main class="pagina">
+  <header class="cabecera">
+    <div>
+      <h1>Carpetas</h1>
+      <p>Organiza tus documentos mediante carpetas y subcarpetas.</p>
+    </div>
+    <button type="button" [disabled]="cargando" (click)="cargarCarpetas()">
+      {{ cargando ? 'Cargando...' : 'Actualizar' }} 
+    </button>
+  </header>
+
+  @if (mensaje) {
+    <p class="mensaje" role="status" aria-live="polite">{{ mensaje }}</p>
+  }
+
+  <form class="formulario" (ngSubmit)="crearCarpeta()">
+    <h2>Crear carpeta</h2>
+
+    <label for="nombre">Nombre</label>
+    <input
+      id="nombre"
+      name="nombre"
+      [(ngModel)]="nombre"
+      required
+      maxlength="100"
+      placeholder="Ej. Documentos personales"
+    />
+
+    <label for="padre">Carpeta principal</label>
+    <select id="padre" name="carpetaPadre" [(ngModel)]="carpetaPadre">
+      <option value="">Crear en la raíz</option>
+      @for (carpeta of carpetas; track carpeta._id) {
+        <option [value]="carpeta._id">{{ carpeta.nombre }}</option>
+      }
+    </select>
+
+    <button type="submit" [disabled]="procesando">
+      {{ procesando ? 'Procesando...' : 'Crear carpeta' }}
+    </button>
+  </form>
+
+  <section class="lista">
+    <h2>Todas mis carpetas</h2>
+
+    @if (cargando && carpetas.length === 0) {
+      <p>Cargando carpetas...</p>
+    } @else if (!cargando && carpetas.length === 0) {
+      <p>No hay carpetas para mostrar.</p>
+    } @else {
+      @for (carpeta of carpetas; track carpeta._id) {
+         <article class="elemento" [style.margin-left.rem]="obtenerNivel(carpeta) * 2">
+          <span class="icono"></span>
+          <div>
+            <strong>{{ carpeta.nombre }}</strong>
+            <small>
+              {{ obtenerNombrePadre(carpeta) }}
+            </small>
+          </div>
+          <button
+            type="button"
+            [disabled]="procesando"
+            (click)="enviarPapelera(carpeta)">
+            {{ procesando ? 'Procesando...' : 'Enviar a papelera' }}
+          </button>
+        </article> 
+      }
+    }
+  </section>
+</main>

@@ -1,0 +1,116 @@
+:host {
+  display: block;
+  font-family: Arial, sans-serif;
+}
+
+.pagina {
+  max-width: 1000px;
+  margin: auto;
+  padding: 28px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+h1 {
+  color: #172554;
+}
+
+p, small {
+  color: #64748b;
+}
+
+button {
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #2454b8;
+  color: white;
+  cursor: pointer;
+}
+
+.panel {
+  margin-top: 25px;
+  padding: 22px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+}
+
+.recurso {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.recurso:last-child {
+  border-bottom: 0;
+}
+
+.recurso > span {
+  font-size: 26px;
+}
+
+.recurso strong, .recurso small {
+  display: block;
+}
+
+.recurso small {
+  margin-top: 5px;
+}
+
+.mensaje {
+  margin-top: 18px;
+}
+
+@media (max-width: 600px) {
+  .pagina {
+    padding: 16px;
+  }
+
+  header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+.recurso {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.informacion strong,
+.informacion small {
+  display: block;
+}
+
+.informacion small {
+  margin-top: 5px;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.peligro {
+  background: #b91c1c;
+}
+
+@media (max-width: 650px) {
+  .recurso {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

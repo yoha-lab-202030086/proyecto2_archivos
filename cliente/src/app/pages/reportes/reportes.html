@@ -1,0 +1,106 @@
+<main class="pagina">
+  <header>
+    <h1>Reportes del sistema</h1>
+    <p>Consulta documentos, usuarios, carpetas y actividad.</p>
+  </header>
+
+  <section class="panel">
+    <label for="reporte">Seleccionar reporte</label>
+    <select id="reporte" name="reporte" [(ngModel)]="rutaSeleccionada" [disabled]="cargando">
+      @for (opcion of opciones; track opcion.ruta) {
+        <option [value]="opcion.ruta">{{ opcion.nombre }}</option>
+      }
+    </select>
+
+    @if (opcionActual.requiereUsuario) {
+      <label for="usuarioId">ID del usuario</label>
+      <input
+        id="usuarioId"
+        name="usuarioId"
+        [(ngModel)]="usuarioId"
+        required
+        maxlength="100"
+        placeholder="ID del usuario"
+        [disabled]="cargando"
+      />
+    }
+
+    @if (opcionActual.requiereCarpeta) {
+      <label for="carpetaId">ID de la carpeta</label>
+      <input
+        id="carpetaId"
+        name="carpetaId"
+        [(ngModel)]="carpetaId"
+        required
+        maxlength="100"
+        placeholder="ID de la carpeta"
+        [disabled]="cargando"
+      />
+    }
+
+    @if (opcionActual.requiereFechas) {
+      <div class="fechas">
+        <div>
+          <label for="fechaInicio">Fecha inicial</label>
+          <input
+            id="fechaInicio"
+            name="fechaInicio"
+            type="date"
+            required
+            [(ngModel)]="fechaInicio"
+            [disabled]="cargando"
+          />
+        </div>
+        <div>
+          <label for="fechaFin">Fecha final</label>
+          <input
+            id="fechaFin"
+            name="fechaFin"
+            type="date"
+            required
+            [(ngModel)]="fechaFin"
+            [disabled]="cargando"
+          />
+        </div>
+      </div>
+    }
+
+    @if (opcionActual.requierePeriodo) {
+      <label for="periodo">Periodo</label>
+      <select id="periodo" name="periodo" [(ngModel)]="periodo" [disabled]="cargando">
+        <option value="dia">Día</option>
+        <option value="semana">Semana</option>
+        <option value="mes">Mes</option>
+        <option value="anio">Año</option>
+      </select>
+    }
+
+    <button
+      type="button"
+      (click)="consultar()"
+      [disabled]="cargando"
+    >
+      {{ cargando ? 'Procesando...' : 'Generar reporte' }}
+    </button>
+
+    @if (cargando) {
+      <p role="status">Generando reporte...</p>
+    }
+
+    @if (mensaje) {
+      <p class="mensaje" role="alert">{{ mensaje }}</p>
+    }
+  </section>
+
+  @if (resultado !== null) {
+    <section class="panel">
+      <h2>{{ opcionActual.nombre }}</h2>
+
+      @if (esListaVacia(resultado)) {
+        <p>No se encontraron resultados.</p>
+      } @else {
+        <pre>{{ resultado | json }}</pre>
+      }
+    </section>
+  }
+</main>

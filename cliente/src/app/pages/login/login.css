@@ -1,0 +1,107 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.pagina-login {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #edf3ff, #f7f8fc);
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.tarjeta-login {
+  width: 100%;
+  max-width: 410px;
+  padding: 36px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 12px 40px #17255418;
+  box-sizing: border-box;
+}
+
+.icono-documento {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 18px;
+  border-radius: 15px;
+  background: #e8efff;
+  color: #2454b8;
+  font-size: 38px;
+}
+
+h1 {
+  margin: 0;
+  color: #172554;
+  text-align: center;
+  font-size: 26px;
+}
+
+.subtitulo {
+  margin: 12px 0 28px;
+  color: #64748b;
+  text-align: center;
+  line-height: 1.5;
+}
+
+label {
+  display: block;
+  margin: 16px 0 8px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+input:focus {
+  outline: 2px solid #93b4ff;
+  border-color: #2454b8;
+}
+
+button {
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px;
+  border: none;
+  border-radius: 9px;
+  background: #2454b8;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d438f;
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.mensaje-error {
+  color: #b91c1c;
+  font-size: 14px;
+}
+
+.pie-login {
+  margin: 24px 0 0;
+  color: #94a3b8;
+  font-size: 12px;
+  text-align: center;
+}

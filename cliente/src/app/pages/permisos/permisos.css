@@ -1,0 +1,90 @@
+:host {
+  display: block;
+  font-family: Arial, sans-serif;
+}
+
+.pagina {
+  max-width: 1000px;
+  margin: auto;
+  padding: 28px;
+}
+
+h1, h2 {
+  color: #172554;
+}
+
+p, small {
+  color: #64748b;
+}
+
+.panel {
+  margin-top: 22px;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+}
+
+label {
+  display: block;
+  margin: 14px 0 7px;
+  font-weight: 600;
+}
+
+input, select {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+button {
+  margin: 8px 5px 0 0;
+  padding: 10px 13px;
+  border: 0;
+  border-radius: 7px;
+  background: #2454b8;
+  color: white;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.permiso {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.peligro {
+  background: #b91c1c;
+}
+
+.mensaje {
+  color: #b91c1c;
+}
+
+@media (max-width: 650px) {
+  .pagina {
+    padding: 16px;
+  }
+
+  .permiso {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

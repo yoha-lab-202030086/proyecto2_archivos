@@ -1,0 +1,42 @@
+<main class="pagina-login">
+  <section class="tarjeta-login">
+    <div class="icono-documento"></div>
+
+    <h1>Gestión Documental</h1>
+    <p class="subtitulo">Ingresa a tu cuenta para continuar</p>
+
+    <form (ngSubmit)="iniciarSesion()">
+      <label for="correo">Correo electrónico</label>
+      <input
+        id="correo"
+        type="email"
+        name="correo"
+        [(ngModel)]="correo"
+        placeholder="usuario@correo.com"
+        autocomplete="username"
+        required
+      />
+
+      <label for="contrasena">Contraseña</label>
+      <input
+        id="contrasena"
+        type="password"
+        name="contrasena"
+        [(ngModel)]="contrasena"
+        placeholder="Ingresa tu contraseña"
+        autocomplete="current-password"
+        required
+      />
+
+      @if (mensaje) {
+        <p class="mensaje-error">{{ mensaje }}</p>
+      }
+
+      <button type="submit" [disabled]="cargando">
+        {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }}
+      </button>
+    </form>
+
+    <p class="pie-login">Sistema de Gestión Documental</p>
+  </section>
+</main>

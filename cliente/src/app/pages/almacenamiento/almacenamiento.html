@@ -1,0 +1,39 @@
+<main class="pagina">
+  <header>
+    <div>
+      <h1>Mi almacenamiento</h1>
+      <p>Consulta el espacio utilizado y el disponible en tu cuenta.</p>
+    </div>
+    <button type="button" (click)="consultar()">Actualizar</button>
+  </header>
+
+  @if (datos) {
+    <section class="tarjeta">
+      <h2>Resumen de espacio</h2>
+
+      <div class="dato">
+        <span>Espacio total</span>
+        <strong>{{ datos.almacenamientoTotal ?? 0 }} bytes</strong>
+      </div>
+
+      <div class="dato">
+        <span>Espacio utilizado</span>
+        <strong>{{ datos.almacenamientoUsado ?? 0 }} bytes</strong>
+      </div>
+
+      <div class="dato">
+        <span>Espacio disponible</span>
+        <strong>{{ datos.almacenamientoDisponible ?? 0 }} bytes</strong>
+      </div>
+
+      <div class="barra">
+        <div
+          class="progreso"
+          [style.width.%]="porcentaje"
+        ></div>
+      </div>
+
+      <p>{{ porcentaje }}% del espacio utilizado</p>
+    </section>
+  }
+</main>

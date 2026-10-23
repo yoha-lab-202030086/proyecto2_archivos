@@ -1,0 +1,89 @@
+<div class="panel">
+  <aside class="menu">
+    <div class="marca">
+      <span class="marca-icono"></span>
+      <div>
+        <strong>Gestión</strong>
+        <small>Documental</small>
+      </div>
+    </div>
+
+    <p class="titulo-menu">MENÚ PRINCIPAL</p>
+
+    <nav class="navegacion">
+      <a routerLink="/inicio"> &nbsp; Inicio</a>
+      <a routerLink="/carpetas"> &nbsp; Carpetas</a>
+      <a routerLink="/archivos"> &nbsp; Archivos</a>
+      <a routerLink="/permisos"> &nbsp; Compartidos y permisos</a>
+      <a routerLink="/papelera"> &nbsp; Papelera</a>
+      <a routerLink="/almacenamiento"> &nbsp; Almacenamiento</a>
+      <a routerLink="/reportes"> &nbsp; Reportes</a>
+      <a routerLink="/actividad"> &nbsp; Historial</a>
+      <a routerLink="/usuarios"> &nbsp; Usuarios</a>
+    </nav>
+
+    <button class="boton-salir" (click)="cerrarSesion()">
+      Cerrar sesión
+    </button>
+
+  </aside>
+
+  <main class="contenido">
+    <header class="encabezado">
+      <div>
+        <h1>Panel principal</h1>
+        <p>Bienvenido al Sistema de Gestión Documental</p>
+      </div>
+      <span class="etiqueta">Sistema documental</span>
+    </header>
+
+    <section class="bienvenida">
+      <div>
+        <p class="sobrelinea">TU ESPACIO DE TRABAJO</p>
+        <h2>Organiza tus documentos en un solo lugar.</h2>
+        <p>Administra tus archivos, carpetas y recursos compartidos.</p>
+      </div>
+      <span class="ilustracion"></span>
+    </section>
+
+    <h2 class="titulo-seccion">Acceso rápido</h2>
+
+    <section class="tarjetas">
+    <a class="tarjeta" id="carpetas" routerLink="/carpetas">
+        <span class="icono azul"></span>
+        <h3>Carpetas</h3>
+        <p>Organiza tus documentos por carpetas y subcarpetas.</p>
+      </a>
+
+      <a class="tarjeta" id="archivos" routerLink="/archivos">
+        <span class="icono morado"></span>
+        <h3>Archivos</h3>
+        <p>Gestiona los documentos del sistema.</p>
+      </a>
+
+      <a class="tarjeta" id="compartidos" routerLink="/permisos">
+        <span class="icono verde"></span>
+        <h3>Compartidos</h3>
+        <p>Consulta los recursos compartidos contigo.</p>
+      </a>
+
+      <a class="tarjeta" id="papelera" routerLink="/papelera">
+        <span class="icono naranja"></span>
+        <h3>Papelera</h3>
+        <p>Consulta y recupera recursos eliminados.</p>
+      </a>
+
+      <a class="tarjeta" id="almacenamiento" routerLink="/almacenamiento">
+        <span class="icono azul"></span>
+        <h3>Almacenamiento</h3>
+        <p>Consulta el uso del espacio disponible.</p>
+      </a>
+
+      <a class="tarjeta" id="reportes" routerLink="/reportes">
+        <span class="icono morado"></span>
+        <h3>Reportes</h3>
+        <p>Revisa las estadísticas de los documentos.</p>
+      </a>
+    </section>
+  </main>
+</div>

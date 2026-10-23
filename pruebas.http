@@ -1,13 +1,11 @@
 ### 1. INICIAR SESIÓN (LOGIN ANA - USUARIO)
-
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
-{
-    "correo": "ana@gmail.com",
-    "contraseña": "123456"
+{ 
+  "correo": "ana@gmail.com", 
+  "contraseña": "123456"
 }
-
 
 
 ### 2. CREAR CARPETA
@@ -15,8 +13,8 @@ POST http://localhost:3000/api/carpetas
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZDNlZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMTU3ODEsImV4cCI6MTc5MjE0NDU4MX0.MgtLFVeka793MwATAUxL6eOVhmOgUGr0xEyVOf1b9-Y
 Content-Type: application/json
 
-{
-    "nombre": "Estructura de Calificacion"
+{ 
+  "nombre": "Estructura de Calificacion"
 }
 
 
@@ -33,137 +31,164 @@ Content-Type: application/pdf
 
 --boundary_sistema_documental--
 
+
 ### 4. CREAR USUARIO ADMINISTRADOR DE PRUEBAS
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
 
-{
-    "nombre": "Jefe Soporte",
-    "correo": "admin@gmail.com",
-    "contraseña": "123456",
-    "rol": "ADMINISTRADOR"
+{ 
+  "nombre": "Jefe Soporte", 
+  "correo": "admin@gmail.com", 
+  "contraseña": "123456", 
+  "rol": "ADMINISTRADOR"
 }
+
 
 ### 4-B. INICIAR SESIÓN (LOGIN ADMINISTRADOR)
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
-{
-  "correo": "demo.admin@documental.local",
+{ 
+  "correo": "demo.admin@documental.local", 
   "contraseña": "Demo1234!"
 }
-
 
 
 ### 5. DESCARGAR ARCHIVO DESDE GRIDFS
 GET http://localhost:3000/api/archivos/6acc0c09af4a2158191e827a/descargar
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZGZjZjJlYjdmZDYyMWFkOWZhZiIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMDA4ODEsImV4cCI6MTc5MjEyOTY4MX0.T_GrkdTqCv_wUyS1sSiCxx-mTOAg2wqa4liPnhjgJN0
+
+
 ### 6. RENOMBRAR ARCHIVO
 PUT http://localhost:3000/api/archivos/6acc0c09af4a2158191e827a/renombrar
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZGZjZjJlYjdmZDYyMWFkOWZhZiIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMDQ5MjIsImV4cCI6MTc5MjEzMzcyMn0.6eKqm5LrucQWqBB3zhe6uxfaEWoKeGPAoKc9yVs6L6E
 Content-Type: application/json
 
-{
-    "nombre": "informe_final_renombrado.pdf"
+{ 
+  "nombre": "informe_final_renombrado.pdf"
 }
+
 
 ### 7. MOVER ARCHIVO A LA CARPETA CREADA
 PUT http://localhost:3000/api/archivos/6acc0c09af4a2158191e827a/mover
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZGZjZjJlYjdmZDYyMWFkOWZhZiIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMDA4ODEsImV4cCI6MTc5MjEyOTY4MX0.T_GrkdTqCv_wUyS1sSiCxx-mTOAg2wqa4liPnhjgJN0
 Content-Type: application/json
 
-{
-    "carpetaId": "6acc0bcaaf4a2158191e8277"
+{ 
+  "carpetaId": "6acc0bcaaf4a2158191e8277"
 }
+
 
 ### 8. COMPARTIR ARCHIVO CON CARLOS
 POST http://localhost:3000/api/permisos
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE3NTcxODcsImV4cCI6MTc5MTc4NTk4N30.QgIbQWpVRlKLgN3F5vgIxAZuJcW1VDNnoCQsPJIlmmU
 Content-Type: application/json
 
-{
-    "recursoTipo": "ARCHIVO",
-    "recursoId": "6acc0c09af4a2158191e827a",
-    "usuarioDestinoId": "6ac95e2370c066307c547bfa",
-    "nivel": "LECTURA"
+{ 
+  "recursoTipo": "ARCHIVO", 
+  "recursoId": "6acc0c09af4a2158191e827a", 
+  "usuarioDestinoId": "6ac95e2370c066307c547bfa", 
+  "nivel": "LECTURA"
 }
+
 
 ### 9. ENVIAR ARCHIVO A LA PAPELERA
 DELETE http://localhost:3000/api/papelera/archivo/6ad176538486ae1713ad1b28
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZDNlZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMTM4ODIsImV4cCI6MTc5MjE0MjY4Mn0.xcCArm6QiFFxvfiPf3qtKAW2HioDgIffrIGh97knoKk
-### 10.
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZDNlZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMTTM4ODIsImV4cCI6MTc5MjE0MjY4Mn0.xcCArm6QiFFxvfiPf3qtKAW2HioDgIffrIGh97knoKk
+
+
+### 10. CONSULTAR CONTENIDO DE LA PAPELERA LÓGICA
 GET http://localhost:3000/api/papelera
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE3NTcxODcsImV4cCI6MTc5MTc4NTk4N30.QgIbQWpVRlKLgN3F5vgIxAZuJcW1VDNnoCQsPJIlmmU
+
 
 ### 11. EXTRA: CONSULTAR HISTORIAL DE AUDITORÍA
 GET http://localhost:3000/api/actividades
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzZkZDM2MGI1YmI2ODMyOGNiM2M5MyIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTE3NTcxODcsImV4cCI6MTc5MTc4NTk4N30.QgIbQWpVRlKLgN3F5vgIxAZuJcW1VDNnoCQsPJIlmmU
 
+
 ### 12. CONSULTAR REPORTE: ARCHIVOS MÁS GRANDES
 GET http://localhost:3000/api/reportes/archivos-mas-grandes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZmIzZjJlYjdmZDYyMWFkOWZiMSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIzNjc1NzAsImV4cCI6MTc5MjM5NjM3MH0.Xsj-uMP5ZncqKWQyKgvCx0UK5Xig4EjbQXA3g1JLX0c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZmIzZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIzNjc1NzAsImV4cCI6MTc5MjM5NjM3MH0.Xsj-uMP5ZncqKWQyKgvCx0UK5Xig4EjbQXA3g1JLX0c
 
 
 ### 13. CONSULTAR REPORTE: ALMACENAMIENTO POR USUARIO
 GET http://localhost:3000/api/reportes/almacenamiento-usuarios
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZmIzZjJlYjdmZDYyMWFkOWZiMSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIzNjUxOTQsImV4cCI6MTc5MjM5Mzk5NH0.qtkkS3GVwXpWLwFwhzvqo1zCg7xIs3ndTj7UxJKPwAA
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZmIzZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIzNjUxOTQsImV4cCI6MTc5MjM5Mzk5NH0.qtkkS3GVwXpWLwFwhzvqo1zCg7xIs3ndTj7UxJKPwAA
 
 
 ### 14. CONSULTAR REPORTE: ACTIVIDADES POR TIPO
 GET http://localhost:3000/api/reportes/actividades-por-tipo
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZmIzZjJlYjdmZDYyMWFkOWZiMSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIzNjUxOTQsImV4cCI6MTc5MjM5Mzk5NH0.qtkkS3GVwXpWLwFwhzvqo1zCg7xIs3ndTj7UxJKPwAA
-
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZmIzZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIzNjUxOTQsImV4cCI6MTc5MjM5Mzk5NH0.qtkkS3GVwXpWLwFwhzvqo1zCg7xIs3ndTj7UxJKPwAA
 
 
 ### 15. ELIMINACIÓN DEFINITIVA DE CARPETA 
 DELETE http://localhost:3000/api/papelera/carpeta/6acc0bcaaf4a2158191e8277/definitivo
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZmIzZjJlYjdmZDYyMWFkOWZiMSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMTUzODMsImV4cCI6MTc5MjE0NDE4M30.RFxmFGTZBO2zs3YcX4LxiKyxZttyAvWLtlBm5UaV9Zw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZmIzZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMTUzODMsImV4cCI6MTc5MjE0NDE4M30.RFxmFGTZBO2zs3YcX4LxiKyxZttyAvWLtlBm5UaV9Zw
+
 
 ### 16. REPORTE: CANTIDAD POR TIPO
 GET http://localhost:3000/api/reportes/archivos-por-tipo
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
 
+
 ### 17. REPORTE: ARCHIVOS POR FECHAS
 GET http://localhost:3000/api/reportes/archivos-por-fecha?fechaInicio=2026-01-01&fechaFin=2026-12-31
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
+
 
 ### 18. REPORTE: ARCHIVOS CON MÁS OPERACIONES
 GET http://localhost:3000/api/reportes/archivos-mas-operaciones
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
 
+
 ### 19. REPORTE: ESPACIO POR TIPO
 GET http://localhost:3000/api/reportes/almacenamiento-por-tipo
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2QyMDIzNDFkNGZkMmNiODQ4ZDQ0YyIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTA5MjUsImV4cCI6MTc5MjAzOTcyNX0.ru090Np_RF22VHPg39AexBTC4P930s1p5rM5ejawqVw
 
+
 ### 20. REPORTE: USUARIOS CON MÁS ARCHIVOS
 GET http://localhost:3000/api/reportes/usuarios-mas-archivos
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
+
+
 ### 21. REPORTE: PORCENTAJE USADO POR USUARIO
 GET http://localhost:3000/api/reportes/porcentaje-almacenamiento
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
 
+
 ### 22. REPORTE: USUARIOS QUE MÁS COMPARTEN
 GET http://localhost:3000/api/reportes/usuarios-mas-comparten
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
+
+
 ### 23. REPORTE: RECURSOS MÁS COMPARTIDOS
 GET http://localhost:3000/api/reportes/recursos-mas-compartidos
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
+
+
+
 ### 24. REPORTE: ARCHIVOS NO COMPARTIDOS
 GET http://localhost:3000/api/reportes/archivos-no-compartidos
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
+
+
 ### 25. REPORTE: CARPETAS CON MÁS ARCHIVOS
 GET http://localhost:3000/api/reportes/carpetas-mas-archivos
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
+
+
 ### 26. REPORTE: ACTIVIDADES POR PERIODO
 GET http://localhost:3000/api/reportes/actividades-por-periodo?periodo=mes
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
+
+
 ### 27. REPORTE: ACCIONES PRINCIPALES
 GET http://localhost:3000/api/reportes/acciones-principales
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhY2ZmMDE4M2M0ODQ2YjI5NzI1NWVmMiIsInJvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE3OTIwMTY5NDYsImV4cCI6MTc5MjA0NTc0Nn0.LO6TLrJaxsazfc6_vxS84eVMsTO29I1VQDrdP_nO_s0
 
-### 28. PROPIETARIO
+
+### 28. PROPIETARIO 
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
@@ -172,129 +197,130 @@ Content-Type: application/json
   "contraseña": "Demo1234!"
 }
 
-### 28. PROPIETARIO
 
+### 28-B. CREAR PROPIETARIO DE PRUEBAS
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
 
 {
-    "nombre": "Prueba Uno",
-    "correo": "propietario@gmail.com",
-    "contraseña": "clave1234"
+  "nombre": "Prueba Uno",
+  "correo": "propietario@gmail.com",
+  "contraseña": "clave1234"
 }
 
-### 29. LECTOR
+
+### 29. CREAR LECTOR DE PRUEBAS
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
 
 {
-    "nombre": "Prueba Dos",
-    "correo": "lector@gmail.com",
-    "contraseña": "clave1234"
+  "nombre": "Prueba Dos",
+  "correo": "lector@gmail.com",
+  "contraseña": "clave1234"
 }
 
-### 30. EDITOR
+
+### 30. CREAR EDITOR DE PRUEBAS
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
 
 {
-    "nombre": "Prueba Tres",
-    "correo": "editor@gmail.com",
-    "contraseña": "clave1234"
+  "nombre": "Prueba Tres",
+  "correo": "editor@gmail.com",
+  "contraseña": "clave1234"
 }
+
 
 ### 31. TOKEN PROPIETARIO
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "correo": "propietario@gmail.com",
-    "contraseña": "clave1234"
+  "correo": "propietario@gmail.com",
+  "contraseña": "clave1234"
 }
+
 
 ### 32. TOKEN LECTOR
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "correo": "lector@gmail.com",
-    "contraseña": "clave1234"
+  "correo": "lector@gmail.com",
+  "contraseña": "clave1234"
 }
+
 
 ### 33. TOKEN EDITOR
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "correo": "editor@gmail.com",
-    "contraseña": "clave1234"
+  "correo": "editor@gmail.com",
+  "contraseña": "clave1234"
 }
 
-### 34. ADMINSTRADOR
 
+### 34. CREAR ADMINISTRADOR DE PRUEBAS
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
 
 {
-    "nombre": "Admin Control",
-    "correo": "admin_pruebas@gmail.com",
-    "contraseña": "clave1234"
+  "nombre": "Admin Control",
+  "correo": "admin_pruebas@gmail.com",
+  "contraseña": "clave1234"
 }
 
-### 35. ADM
+
+### 35. TOKEN ADM
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "correo": "admin_pruebas@gmail.com",
-    "contraseña": "clave1234"
+  "correo": "admin_pruebas@gmail.com",
+  "contraseña": "clave1234"
 }
 
-### 31. ASIGNAR ACCESO LECTURA
+
+### 35-B. ASIGNAR ACCESO LECTURA
 POST http://localhost:3000/api/permisos
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZGZjZjJlYjdmZDYyMWFkOWZhZiIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMDQ5MjIsImV4cCI6MTc5MjEzMzcyMn0.6eKqm5LrucQWqBB3zhe6uxfaEWoKeGPAoKc9yVs6L6E
 Content-Type: application/json
 
 {
-    "recursoTipo": "ARCHIVO",
-    "recursoId": "6ad141e5f2eb7fd621ad9fb4",
-    "usuarioDestinoId": "6ad13dfcf2eb7fd621ad9faf",
-    "nivel": "LECTURA"
+  "recursoTipo": "ARCHIVO",
+  "recursoId": "6ad141e5f2eb7fd621ad9fb4",
+  "usuarioDestinoId": "6ad13dfcf2eb7fd621ad9faf",
+  "nivel": "LECTURA"
 }
 
-### 32. 
 
+### 35-C. ASIGNAR ACCESO EDICIÓN
 POST http://localhost:3000/api/permisos
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZDNlZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMDIxMTEsImV4cCI6MTc5MjEzMDkxMX0.jL7bZoYB7vxxWg6k4Zv_mCymHliaTVOAom8hDlyRbtM
 Content-Type: application/json
 
 {
-    "recursoTipo": "ARCHIVO",
-    "recursoId": "6ad141e5f2eb7fd621ad9fb4",
-    "usuarioDestinoId": "6ad13e47f2eb7fd621ad9fb0",
-    "nivel": "EDICION"
+  "recursoTipo": "ARCHIVO",
+  "recursoId": "6ad141e5f2eb7fd621ad9fb4",
+  "usuarioDestinoId": "6ad13e47f2eb7fd621ad9fb0",
+  "nivel": "EDICION"
 }
-
-
-
 
 
 ### 36. PRUEBA B: RESTAURAR ARCHIVO DE LA PAPELERA
 PUT http://localhost:3000/api/papelera/archivo/6ad176538486ae1713ad1b28/restaurar
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZDNlZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMTM4ODIsImV4cCI6MTc5MjE0MjY4Mn0.xcCArm6QiFFxvfiPf3qtKAW2HioDgIffrIGh97knoKk
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZDNlZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMTTM4ODIsImV4cCI6MTc5MjE0MjY4Mn0.xcCArm6QiFFxvfiPf3qtKAW2HioDgIffrIGh97knoKk
 
 
 ### 37. PRUEBA C: ELIMINACIÓN DEFINITIVA
 DELETE http://localhost:3000/api/papelera/archivo/6ad176538486ae1713ad1b28/definitivo
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZDNlZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMTM4ODIsImV4cCI6MTc5MjE0MjY4Mn0.xcCArm6QiFFxvfiPf3qtKAW2HioDgIffrIGh97knoKk
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZDNlZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMTTM4ODIsImV4cCI6MTc5MjE0MjY4Mn0.xcCArm6QiFFxvfiPf3qtKAW2HioDgIffrIGh97knoKk
 
 
 ### 38. ENVIAR CARPETA A LA PAPELERA
 DELETE http://localhost:3000/api/papelera/carpeta/6acc0bcaaf4a2158191e8277
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZmIzZjJlYjdmZDYyMWFkOWZiMSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMTUzODMsImV4cCI6MTc5MjE0NDE4M30.RFxmFGTZBO2zs3YcX4LxiKyxZttyAvWLtlBm5UaV9Zw
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZmIzZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMTUzODMsImV4cCI6MTc5MjE0NDE4M30.RFxmFGTZBO2zs3YcX4LxiKyxZttyAvWLtlBm5UaV9Zw
 
 
 ### 39. VALIDACIÓN REAL DE CARPETA EN CASCADA
@@ -302,7 +328,6 @@ DELETE http://localhost:3000/api/papelera/carpeta/6ad1845d8486ae1713ad1b2e
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZDNlZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIxMTU3ODEsImV4cCI6MTc5MjE0NDU4MX0.MgtLFVeka793MwATAUxL6eOVhmOgUGr0xEyVOf1b9-Y
 
 
-
-### 40
+### 40. CONSULTAR HISTORIAL RECIENTE
 GET http://localhost:3000/api/actividades
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDEzZDNlZjJlYjdmZDYyMWFkOWZhZSIsInJvbCI6IlVTVUFSSU8iLCJpYXQiOjE3OTIzNjM3ODAsImV4cCI6MTc5MjM5MjU4MH0.O0VMbMlmQmB0KBlms66dldL0LcXCFU76q9iDbwArYEU

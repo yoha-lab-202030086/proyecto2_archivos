@@ -1,0 +1,287 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #1e293b;
+}
+
+.panel {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.menu {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  width: 245px;
+  height: 100vh;
+  padding: 25px 16px;
+  background: #172554;
+  color: white;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px 28px;
+}
+
+.marca-icono {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  border-radius: 12px;
+  background: #3b63c4;
+  font-size: 28px;
+}
+
+.marca strong,
+.marca small {
+  display: block;
+}
+
+.marca strong {
+  font-size: 18px;
+}
+
+.marca small {
+  margin-top: 4px;
+  color: #cbd5e1;
+}
+
+.titulo-menu {
+  margin: 12px 8px;
+  color: #a5b4fc;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+nav {
+  display: grid;
+  gap: 7px;
+}
+
+nav a {
+  padding: 13px 12px;
+  border-radius: 8px;
+  color: #e2e8f0;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+nav a:hover,
+nav a.activo {
+  background: #30457b;
+  color: white;
+}
+
+.boton-salir {
+  margin-top: auto;
+  padding: 13px;
+  border: 1px solid #52638b;
+  border-radius: 8px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+.contenido {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 35px;
+  overflow: hidden;
+}
+
+.encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.encabezado h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.encabezado p {
+  color: #64748b;
+}
+
+.etiqueta {
+  padding: 10px 14px;
+  border-radius: 20px;
+  background: #e5edff;
+  color: #244a9a;
+  font-size: 12px;
+}
+
+.bienvenida {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 30px;
+  border-radius: 16px;
+  background: linear-gradient(110deg, #254b9c, #4776ce);
+  color: white;
+}
+
+.sobrelinea {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+}
+
+.bienvenida h2 {
+  max-width: 520px;
+  font-size: 25px;
+  line-height: 1.35;
+}
+
+.bienvenida p:last-child {
+  color: #e0eaff;
+  line-height: 1.6;
+}
+
+.ilustracion {
+  font-size: 90px;
+  opacity: 0.8;
+}
+
+.titulo-seccion {
+  margin: 30px 0 18px;
+  font-size: 20px;
+}
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.tarjeta {
+  padding: 22px;
+  border: 1px solid #e5eaf2;
+  border-radius: 13px;
+  background: white;
+}
+
+.icono {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  border-radius: 11px;
+  font-size: 25px;
+}
+
+.azul {
+  background: #e5edff;
+  color: #2454b8;
+}
+
+.morado {
+  background: #f0e8ff;
+  color: #7846b8;
+}
+
+.verde {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.naranja {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.tarjeta h3 {
+  margin-bottom: 8px;
+}
+
+.tarjeta p {
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .menu {
+    width: 200px;
+  }
+
+  .contenido {
+    padding: 22px;
+  }
+
+  .tarjetas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .panel {
+    flex-direction: column;
+  }
+
+  .menu {
+    position: static;
+    width: 100%;
+    height: auto;
+  }
+
+  .boton-salir {
+    margin-top: 18px;
+  }
+
+  .contenido {
+    padding: 18px;
+  }
+
+  .encabezado {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .bienvenida {
+    padding: 22px;
+  }
+
+  .ilustracion {
+    display: none;
+  }
+
+  .tarjetas {
+    grid-template-columns: 1fr;
+  }
+}
+
+.navegacion {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  min-height: auto;
+  background: transparent;
+}
+
+a.tarjeta {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+a.tarjeta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}

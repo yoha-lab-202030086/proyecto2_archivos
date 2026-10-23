@@ -1,0 +1,89 @@
+<main class="pagina">
+  <h1>Compartir documentos</h1>
+  <p>Comparte archivos y carpetas con permisos de lectura o edición.</p>
+
+   @if (mensaje) {
+    <p class="mensaje" role="status" aria-live="polite">{{ mensaje }}</p>
+  }
+
+  <section class="panel">
+    <h2>Compartir un recurso</h2>
+
+    <label for="tipo">Tipo de recurso</label>
+    <select id="tipo" name="recursoTipo" [(ngModel)]="recursoTipo" [disabled]="procesando">
+      <option value="ARCHIVO">Archivo</option>
+      <option value="CARPETA">Carpeta</option>
+    </select>
+
+    <label for="recursoId">ID del archivo o carpeta</label>
+    <input
+      id="recursoId"
+      name="recursoId"
+      [(ngModel)]="recursoId"
+      placeholder="ID del recurso que te pertenece"
+      [disabled]="procesando"
+    />
+
+    <label for="usuarioDestinoId">ID del usuario destinatario</label>
+    <input
+      id="usuarioDestinoId"
+      name="usuarioDestinoId"
+      [(ngModel)]="usuarioDestinoId"
+      placeholder="ID de MongoDB del usuario"
+      [disabled]="procesando"
+    />
+
+    <label for="nivel">Nivel de acceso</label>
+     <select id="nivel" name="nivel" [(ngModel)]="nivel" [disabled]="procesando">
+      <option value="LECTURA">Lectura</option>
+      <option value="EDICION">Edición</option>
+    </select>
+
+    <button type="button" (click)="compartir()" [disabled]="procesando">
+      {{ procesando ? 'Procesando...' : 'Compartir recurso' }}
+    </button>
+  </section>
+
+  <section class="panel">
+    <h2>Consultar accesos de un recurso</h2>
+    <p>Utiliza el mismo tipo e ID del recurso para consultar sus permisos.</p>
+
+    <button type="button" (click)="consultar()" [disabled]="cargando || procesando">
+      {{ cargando ? 'Consultando...' : 'Consultar permisos' }}
+    </button>
+
+    @if (permisos.length === 0 && !cargando) {
+      <p>No hay permisos cargados para este recurso.</p>
+    }
+
+    @for (permiso of permisos; track permiso._id) {
+      <article class="permiso">
+        <div>
+          <strong>{{ permiso.usuario?.nombre || 'Usuario destinatario' }}</strong>
+          <p>{{ permiso.usuario?.correo || permiso.usuario }}</p>
+          <small>Acceso actual: {{ permiso.nivel }}</small>
+        </div>
+
+        <div class="acciones">
+          <button
+            type="button"
+            (click)="cambiarNivel(permiso, 'LECTURA')"
+            [disabled]="permiso.nivel === 'LECTURA' || procesando"
+          >
+            Lectura
+          </button>
+          <button
+            type="button"
+            (click)="cambiarNivel(permiso, 'EDICION')"
+            [disabled]="permiso.nivel === 'EDICION' || procesando"
+          >
+            Edición
+          </button>
+          <button type="button" class="peligro" (click)="retirar(permiso)" [disabled]="procesando">
+            {{ procesando ? 'Retirando...' : 'Retirar acceso' }}
+          </button>
+        </div>
+      </article>
+    }
+  </section>
+</main>

@@ -1,0 +1,46 @@
+<main class="pagina">
+  <header class="cabecera">
+    <div>
+    <h1>Usuarios registrados</h1>
+    <p>Consulta las cuentas registradas en el sistema.</p>
+  </div>
+  <button type="button" [disabled]="cargando" (click)="consultar()">
+    {{ cargando ? 'Cargando...' : 'Actualizar' }}
+  </button>
+</header>
+
+  @if (mensaje) {
+    <p class="mensaje" role="status" aria-live="polite">{{ mensaje }}</p>
+  }
+
+  <section class="panel">
+    @if (cargando) {
+      <p>Cargando usuarios...</p>
+    } @else if (usuarios.length === 0) {
+      <p>No hay usuarios para mostrar.</p>
+    } @else {
+      <div class="tabla">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Rol</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (usuario of usuarios; track usuario._id || usuario.id || $index) {
+              <tr>
+                <td>{{ usuario.nombre || usuario.nombreCompleto || '—' }}</td>
+                <td>{{ usuario.correo || usuario.email || '—' }}</td>
+                <td>{{ usuario.rol || usuario.role || '—' }}</td>
+                <td>{{ usuario.estado || (usuario.activo === true ? 'Activo' : usuario.activo === false ? 'Inactivo' : '—') }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</main>

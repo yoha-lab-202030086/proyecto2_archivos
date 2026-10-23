@@ -1,0 +1,52 @@
+<main class="pagina">
+  <header>
+    <div>
+      <h1>Historial de actividad</h1>
+      <p>Consulta las operaciones registradas en el sistema.</p>
+    </div>
+    <button type="button" (click)="consultar()">Actualizar</button>
+  </header>
+
+  <section class="panel">
+    <label for="filtro">Buscar actividad</label>
+    <input
+      id="filtro"
+      name="filtro"
+      [(ngModel)]="filtro"
+      placeholder="Buscar por acción, usuario o recurso"
+    />
+
+    @if (mensaje) {
+      <p class="mensaje">{{ mensaje }}</p>
+    }
+
+    @if (cargando) {
+      <p>Cargando historial...</p>
+    } @else if (actividadesFiltradas.length === 0) {
+      <p>No hay actividades para mostrar.</p>
+    } @else {
+      <div class="tabla">
+        <table>
+          <thead>
+            <tr>
+              <th>Acción</th>
+              <th>Usuario</th>
+              <th>Recurso</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (actividad of actividadesFiltradas; track actividad._id || actividad.id || $index) {
+              <tr>
+                <td>{{ actividad.accion || actividad.accionRealizada || actividad.tipo || '—' }}</td>
+                <td>{{ actividad.usuario || actividad.usuarioNombre || actividad.idUsuario || '—' }}</td>
+                <td>{{ actividad.recurso || actividad.nombreRecurso || actividad.idRecurso || '—' }}</td>
+                <td>{{ actividad.fecha || actividad.createdAt || actividad.fechaHora || '—' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</main>

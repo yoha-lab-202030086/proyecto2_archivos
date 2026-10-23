@@ -1,0 +1,95 @@
+
+:host {
+  display: block;
+  font-family: Arial, sans-serif;
+}
+
+.pagina {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+h1, h2 {
+  color: #172554;
+}
+
+header p {
+  color: #64748b;
+}
+
+label {
+  display: block;
+  margin: 15px 0 7px;
+  font-weight: 600;
+}
+
+.panel {
+  display: grid;        
+  gap: 12px;             
+  margin: 22px 0;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+}
+
+input,
+select,
+button {
+  box-sizing: border-box;
+  width: 100%;           
+  font: inherit;
+}
+
+input, select {
+  display: block;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+}
+
+.fechas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 18px;
+  background: #2454b8;   
+  color: white;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.mensaje {
+  color: #b91c1c;
+}
+
+pre {
+  max-width: 100%;
+  overflow: auto;
+  padding: 16px;
+  border-radius: 8px;
+  background: #f1f5f9;  
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .pagina {
+    padding: 16px;
+  }
+
+  .fechas {
+    grid-template-columns: 1fr;
+  }
+}

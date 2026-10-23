@@ -1,0 +1,79 @@
+<main class="pagina">
+  <header>
+    <div>
+      <h1>Papelera</h1>
+      <p>Restaura recursos o elimínalos definitivamente.</p>
+    </div>
+    <button type="button" [disabled]="cargando" (click)="cargarPapelera()">
+      {{ cargando ? 'Cargando...' : 'Actualizar' }}
+    </button>
+  </header>
+
+  @if (mensaje) {
+    <p class="mensaje" role="status" aria-live="polite">{{ mensaje }}</p>
+  }
+
+  @if (cargando && archivos.length === 0 && carpetas.length === 0) {
+    <p>Cargando papelera...</p>
+  } @else {
+    <section class="panel">
+      <h2>Archivos eliminados</h2>
+
+      @if (archivos.length === 0) {
+        <p>No hay archivos eliminados.</p>
+      }
+
+      @for (archivo of archivos; track archivo._id) {
+        <article class="recurso">
+          <div class="informacion">
+            <strong>{{ archivo.nombre || 'Archivo sin nombre' }}</strong>
+            <small>{{ archivo.tipo || 'Documento' }}</small>
+          </div>
+          <div class="acciones">
+            <button type="button" [disabled]="cargando" (click)="restaurar('archivo', archivo._id)">
+              {{ cargando ? 'Procesando...' : 'Restaurar' }}
+            </button>
+            <button
+              type="button"
+              class="peligro"
+              [disabled]="cargando"
+              (click)="eliminarDefinitivamente('archivo', archivo._id)"
+            >
+              {{ cargando ? 'Eliminando...' : 'Eliminar definitivamente' }}
+            </button>
+          </div>
+        </article>
+      }
+    </section>
+
+    <section class="panel">
+      <h2>Carpetas eliminadas</h2>
+
+      @if (carpetas.length === 0) {
+        <p>No hay carpetas eliminadas.</p>
+      }
+
+      @for (carpeta of carpetas; track carpeta._id) {
+        <article class="recurso">
+          <div class="informacion">
+            <strong>{{ carpeta.nombre || 'Carpeta sin nombre' }}</strong>
+            <small>Carpeta</small>
+          </div>
+          <div class="acciones">
+            <button type="button" [disabled]="cargando" (click)="restaurar('carpeta', carpeta._id)">
+              {{ cargando ? 'Procesando...' : 'Restaurar' }}
+            </button>
+            <button
+              type="button"
+              class="peligro"
+              [disabled]="cargando"
+              (click)="eliminarDefinitivamente('carpeta', carpeta._id)"
+            >
+              {{ cargando ? 'Eliminando...' : 'Eliminar definitivamente' }}
+            </button>
+          </div>
+        </article>
+      }
+    </section>
+  }
+</main>

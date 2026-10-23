@@ -46,8 +46,6 @@ const crearCarpeta = async (datos, usuarioId) => {
     detalle: `Se creó la carpeta ${carpeta.nombre}`
 });
 
-
-
     // Validar que la carpeta creada no intente referenciarse a si misma como padre
     if (carpeta.carpetaPadre && carpeta.carpetaPadre.toString() === carpeta._id.toString()) {
         throw new Error('Una carpeta no puede ser su propia carpeta padre');
@@ -67,15 +65,15 @@ const listarCarpetas = async (usuarioId, carpetaPadre = null) => {
     });
 };
 
-// Buscar todas las carpetas activas del usuario sin importar la jerarquía
 const listarTodasLasCarpetas = async (usuarioId) => {
-    return await Carpeta.find({
-        propietario: usuarioId,
-        eliminada: false
-    })
-        .populate('carpetaPadre', 'nombre')
-        .sort({ nombre: 1 });
+    const carpetas = await Carpeta.find({ propietario: usuarioId, eliminada: false }).sort({ nombre: 1 });
+    return carpetas.map(c => {
+        const item = c.toObject();
+        if (!item.carpetaPadre) item.carpetaPadre = null;
+        return item;
+    });
 };
+
 
 module.exports = {
     crearCarpeta,

@@ -1,0 +1,139 @@
+<main class="pagina">
+  <header class="cabecera">
+    <div>
+      <h1>Archivos</h1>
+      <p>Sube, busca, descarga y organiza tus documentos.</p>
+    </div>
+    <button type="button" [disabled]="cargando" (click)="cargarArchivos()">
+      {{ cargando ? 'Cargando...' : 'Actualizar' }}
+    </button>
+  </header>
+
+  @if (mensaje) {
+    <p class="mensaje" role="status" aria-live="polite">{{ mensaje }}</p>
+  }
+
+  <section class="panel">
+    <h2>Subir documento</h2>
+
+    <label for="carpeta">Carpeta de destino (opcional)</label>
+    <select id="carpeta" [(ngModel)]="carpetaId" name="carpeta">
+      <option value="">Carpeta principal</option>
+      @for (carpeta of carpetas; track carpeta._id) {
+        <option [value]="carpeta._id">{{ carpeta.nombre }}</option>
+      }
+    </select>
+
+    <label for="archivo">Seleccionar archivo</label>
+    <input
+      id="archivo"
+      type="file"
+      required
+      (change)="seleccionarArchivo($event)"
+    />
+
+    @if (archivoSeleccionado) {
+      <div class="info-archivo-seleccionado">
+        <p>Nombre: {{ archivoSeleccionado.name }}</p>
+        <p>Tamaño: {{ archivoSeleccionado.size }} bytes</p>
+        <p>Tipo: {{ archivoSeleccionado.type || 'Desconocido' }}</p>
+      </div>
+    }
+
+    <button
+      type="button"
+      (click)="subirArchivo()"
+      [disabled]="procesando || !archivoSeleccionado"
+    >
+      {{ procesando ? 'Procesando...' : 'Subir archivo' }}
+    </button>
+  </section>
+
+  <section class="panel">
+    <h2>Mis documentos</h2>
+
+    <div class="busqueda">
+      <input
+        type="search"
+        [(ngModel)]="buscando"
+        name="buscando"
+        placeholder="Buscar por nombre..."
+        maxlength="100"
+        (keyup.enter)="cargarArchivos()"
+        [disabled]="cargando"
+      />
+      <button type="button" [disabled]="cargando" (click)="cargarArchivos()">
+        {{ cargando ? 'Buscando...' : 'Buscar' }}
+      </button>
+    </div>
+
+    @if (cargando && archivos.length === 0) {
+      <p>Cargando documentos...</p>
+    } @else if (archivos.length === 0) {
+      <p>No se encontraron documentos.</p>
+    } @else {
+      <div class="tabla">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Tipo</th>
+              <th>Tamaño</th>
+              <th>Carpeta</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (archivo of archivos; track archivo._id) {
+              <tr>
+                <td>
+                  {{ archivo.nombre }}
+                  <button type="button" [disabled]="procesando" (click)="renombrar(archivo)">
+                    Renombrar
+                  </button>
+                </td>
+                <td>{{ archivo.tipo }}</td>
+                <td>{{ archivo.tamanio }} bytes</td>
+                <td>{{ archivo.carpeta?.nombre || 'Principal' }}</td>
+                <td>
+                  <button type="button" [disabled]="procesando" (click)="descargar(archivo)">
+                    Descargar
+                  </button>
+
+                  <select
+                    #destino
+                    aria-label="Mover a carpeta"
+                    [value]="archivo.carpeta?._id || ''"
+                    (change)="0"
+                  >
+                    <option value="">Carpeta principal</option>
+                    @for (carpeta of carpetas; track carpeta._id) {
+                      <option [value]="carpeta._id">{{ carpeta.nombre }}</option>
+                    }
+                  </select>
+
+                  <button
+                    type="button"
+                    [disabled]="procesando || destino.value === (archivo.carpeta?._id || '')"
+                     (click)="mover(archivo, destino.value)"
+                    >
+                    Mover
+                  </button>
+
+                  <button
+                    type="button"
+                    class="peligro"
+                    [disabled]="procesando"
+                    (click)="enviarPapelera(archivo)"
+                  >
+                    Papelera
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</main>
