@@ -30,13 +30,21 @@ const ejecutarSeed = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('MongoDB conectado para cargar datos');
 
-    const adminExiste = await Usuario.findOne({ correo: CORREO_ADMIN });
+    console.log('Borrando datos viejos de la base de datos...');
+    await Usuario.deleteMany({});
+    await Carpeta.deleteMany({});
+    await Archivo.deleteMany({});
+    await Permiso.deleteMany({});
+    await Actividad.deleteMany({});
 
-    if (adminExiste) {
-        throw new Error(
-            'Los datos de demostración ya existen. No se insertó nada.'
-        );
+    const bucket = obtenerBucket();
+    try {
+        await bucket.drop();
+        console.log('GridFS limpiado por completo.');
+    } catch (e) {
+        console.log('GridFS listo para recibir datos.');
     }
+    console.log('Base de datos limpia y en cero.');
 
     const hash = await bcrypt.hash(CONTRASENA_DEMO, 10);
 
@@ -91,20 +99,9 @@ const ejecutarSeed = async () => {
         });
     }
 
-    const bucket = obtenerBucket();
-
     const tipos = [
-        { extension: 'pdf', mime: 'application/pdf' },
         { extension: 'txt', mime: 'text/plain' },
-        { extension: 'csv', mime: 'text/csv' },
-        {
-            extension: 'json',
-            mime: 'application/json'
-        },
-        {
-            extension: 'png',
-            mime: 'image/png'
-        }
+        { extension: 'md', mime: 'text/markdown' }
     ];
 
     const archivos = [];
@@ -203,7 +200,6 @@ const ejecutarSeed = async () => {
     console.log('Administrador de demostración:');
     console.log(`Correo: ${CORREO_ADMIN}`);
     console.log(`Contraseña: ${CONTRASENA_DEMO}`);
-    console.log('Cambia esta contraseña antes de cualquier uso real.');
 };
 
 ejecutarSeed()
