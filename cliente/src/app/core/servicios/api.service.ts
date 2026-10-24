@@ -52,6 +52,14 @@ export class ApiService {
     );
   }
 
+modificarParcial(ruta: string, datos: unknown) {
+  return this.http.patch(
+    `${this.urlBase}/${ruta}`,
+    datos,
+    this.opcionesAuth()
+  );
+}
+
   cerrarSesion(): void {
   localStorage.removeItem('token');
   localStorage.removeItem('usuario');

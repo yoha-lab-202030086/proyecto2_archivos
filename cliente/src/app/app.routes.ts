@@ -19,10 +19,25 @@ export const routes: Routes = [
   { path: 'archivos', component: Archivos, canActivate: [authGuard] },
   { path: 'papelera', component: Papelera, canActivate: [authGuard] },
   { path: 'almacenamiento', component: Almacenamiento, canActivate: [authGuard] },
-  { path: 'actividad', component: Actividad, canActivate: [authGuard] },
-  { path: 'usuarios', component: Usuarios, canActivate: [authGuard] },
+  { path: 'actividad', 
+    component: Actividad, 
+    canActivate: [authGuard], 
+    data: { roles: ['ADMINISTRADOR', 'PROPIETARIO'] } 
+  },
+  { 
+    path: 'usuarios', 
+    component: Usuarios, 
+    canActivate: [authGuard], 
+    data: { roles: ['ADMINISTRADOR', 'PROPIETARIO'] } 
+  },
+  { 
+    path: 'reportes', 
+    component: Reportes, 
+    canActivate: [authGuard], 
+    data: { roles: ['ADMINISTRADOR', 'PROPIETARIO'] } 
+  },
+  
   { path: 'permisos', component: Permisos, canActivate: [authGuard] },
-  { path: 'reportes', component: Reportes, canActivate: [authGuard] },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }
 ];

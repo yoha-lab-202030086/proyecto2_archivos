@@ -61,6 +61,18 @@
             [disabled]="procesando"
             (click)="enviarPapelera(carpeta)">
             {{ procesando ? 'Procesando...' : 'Enviar a papelera' }}
+            </button>
+          <button
+            type="button"
+            [disabled]="procesando"
+            (click)="renombrarCarpeta(carpeta)">
+            Renombrar
+          </button>
+          <button
+            type="button"
+            [disabled]="procesando"
+            (click)="moverCarpeta(carpeta)">
+            Mover
           </button>
         </article> 
       }

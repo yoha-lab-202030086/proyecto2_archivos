@@ -14,4 +14,11 @@ router.get(
     usuarioController.listar
 );
 
+router.patch(
+    '/:id/estado',
+    verificarToken,
+    verificarAdministrador,
+    usuarioController.cambiarEstado
+);
+
 module.exports = router;

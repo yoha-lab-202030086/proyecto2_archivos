@@ -17,7 +17,7 @@ export class Archivos implements OnInit {
   buscando = '';
   mensaje = '';
   cargando = false;
-  procesando = false; //
+  procesando = false; 
 
   constructor(private api: ApiService, private cd: ChangeDetectorRef) {}
 
@@ -83,6 +83,12 @@ export class Archivos implements OnInit {
     // Validar seleccion
     if (!this.archivoSeleccionado) {
       this.mensaje = 'Selecciona un archivo antes de subirlo.';
+      return;
+    }
+
+    const nombreArchivo = this.archivoSeleccionado.name.toLowerCase();
+    if (!nombreArchivo.endsWith('.txt') && !nombreArchivo.endsWith('.md')) {
+      this.mensaje = 'Tipo de archivo no permitido. Solo se aceptan documentos .txt y .md';
       return;
     }
 

@@ -27,6 +27,7 @@
               <th>Correo</th>
               <th>Rol</th>
               <th>Estado</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -36,6 +37,15 @@
                 <td>{{ usuario.correo || usuario.email || '—' }}</td>
                 <td>{{ usuario.rol || usuario.role || '—' }}</td>
                 <td>{{ usuario.estado || (usuario.activo === true ? 'Activo' : usuario.activo === false ? 'Inactivo' : '—') }}</td>
+                <td>
+                   <button
+                     type="button"
+                      [disabled]="cargando"
+                       (click)="cambiarEstado(usuario)"
+                       >
+                     {{ usuario.activo === true ? 'Desactivar' : 'Activar' }}
+                   </button>
+                 </td>
               </tr>
             }
           </tbody>

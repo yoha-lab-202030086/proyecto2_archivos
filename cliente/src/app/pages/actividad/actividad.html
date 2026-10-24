@@ -4,20 +4,36 @@
       <h1>Historial de actividad</h1>
       <p>Consulta las operaciones registradas en el sistema.</p>
     </div>
-    <button type="button" (click)="consultar()">Actualizar</button>
+    <button type="button" [disabled]="cargando" (click)="consultar()">
+      {{ cargando ? 'Cargando...' : 'Actualizar' }}
+    </button>
   </header>
 
   <section class="panel">
-    <label for="filtro">Buscar actividad</label>
-    <input
-      id="filtro"
-      name="filtro"
-      [(ngModel)]="filtro"
-      placeholder="Buscar por acción, usuario o recurso"
-    />
+    <div class="grupo-filtro">
+      <label for="filtro">Buscar actividad</label>
+      <input
+        id="filtro"
+        name="filtro"
+        [(ngModel)]="filtro"
+        placeholder="Buscar por acción, usuario o detalle"
+      />
+    </div>
+
+    <div class="filtros-fecha" style="margin-top: 15px; display: flex; gap: 10px; align-items: flex-end;">
+      <div>
+        <label for="fechaInicio">Desde:</label>
+        <input type="date" id="fechaInicio" [(ngModel)]="fechaInicio" (change)="consultar()">
+      </div>
+      <div>
+        <label for="fechaFin">Hasta:</label>
+        <input type="date" id="fechaFin" [(ngModel)]="fechaFin" (change)="consultar()">
+      </div>
+      <button type="button" (click)="limpiarFiltros()">Limpiar Fechas</button>
+    </div>
 
     @if (mensaje) {
-      <p class="mensaje">{{ mensaje }}</p>
+      <p class="mensaje" style="color: red; margin-top: 10px;">{{ mensaje }}</p>
     }
 
     @if (cargando) {
@@ -25,23 +41,26 @@
     } @else if (actividadesFiltradas.length === 0) {
       <p>No hay actividades para mostrar.</p>
     } @else {
-      <div class="tabla">
+      <div class="tabla" style="margin-top: 20px;">
         <table>
           <thead>
             <tr>
               <th>Acción</th>
               <th>Usuario</th>
-              <th>Recurso</th>
+               <th>Recurso / Detalle</th>
               <th>Fecha</th>
             </tr>
           </thead>
           <tbody>
-            @for (actividad of actividadesFiltradas; track actividad._id || actividad.id || $index) {
+           @for (actividad of actividadesFiltradas; track actividad._id || actividad.id || $index) {
               <tr>
-                <td>{{ actividad.accion || actividad.accionRealizada || actividad.tipo || '—' }}</td>
-                <td>{{ actividad.usuario || actividad.usuarioNombre || actividad.idUsuario || '—' }}</td>
-                <td>{{ actividad.recurso || actividad.nombreRecurso || actividad.idRecurso || '—' }}</td>
-                <td>{{ actividad.fecha || actividad.createdAt || actividad.fechaHora || '—' }}</td>
+                <td><strong>{{ actividad.accion || actividad.accionRealizada || actividad.tipo || '—' }}</strong></td>
+                <td>{{ actividad.usuario?.nombre || actividad.usuario?.username || actividad.usuario?.email || actividad.usuarioNombre || actividad.idUsuario || actividad.usuario || '—' }}
+                
+                @if (actividad.usuario?.correo) {
+                    <small style="display:block; color: gray;">({{ actividad.usuario.correo }})</small>}</td>
+              <td>{{ actividad.detalle || actividad.nombreRecurso || actividad.recurso || actividad.idRecurso || '—' }}</td>
+                <td>{{ actividad.fecha || actividad.createdAt || actividad.fechaHora || '—' | date:'dd/MM/yyyy HH:mm' }}</td>
               </tr>
             }
           </tbody>

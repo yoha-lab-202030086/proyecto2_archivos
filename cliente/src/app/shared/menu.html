@@ -1,12 +1,16 @@
-<nav class="menu">
+
+<nav class="sidebar">
   <a routerLink="/inicio">Inicio</a>
-  <a routerLink="/carpetas">Carpetas</a>
-  <a routerLink="/archivos">Archivos</a>
-  <a routerLink="/papelera">Papelera</a>
-  <a routerLink="/almacenamiento">Almacenamiento</a>
-  <a routerLink="/actividad">Actividad</a>
-  <a routerLink="/permisos">Permisos</a>
-  <a routerLink="/usuarios">Usuarios</a>
-  <a routerLink="/reportes">Reportes</a>
-  <button type="button" (click)="cerrarSesion()">Cerrar sesión</button>
+  <a routerLink="/almacenamiento">Mi Almacenamiento</a>
+  <a routerLink="/archivos">Mis Archivos</a>
+  <a routerLink="/carpetas">Mis Carpetas</a>
+  <a routerLink="/papelera">Papelera de Reciclaje</a>
+
+  @if (esAdmin) {
+    <a routerLink="/usuarios">Administrar Usuarios</a>
+    <a routerLink="/reportes">Reportes Globales</a>
+    <a routerLink="/actividad">Historial de Actividad</a>
+  }
+
+  <button (click)="cerrarSesion()">Cerrar Sesión</button>
 </nav>

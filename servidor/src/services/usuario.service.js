@@ -47,8 +47,29 @@ const listarUsuarios = async () => {
     return await Usuario.find().select('-contraseña');
 };
 
+const cambiarEstadoUsuario = async (id, activo) => {
+    if (typeof activo !== 'boolean') {
+        throw new Error('El estado debe ser verdadero o falso');
+    }
+
+    const usuario = await Usuario.findById(id);
+
+    if (!usuario) {
+        throw new Error('El usuario no existe');
+    }
+
+    usuario.activo = activo;
+    await usuario.save();
+
+    const respuesta = usuario.toObject();
+    delete respuesta.contraseña;
+
+    return respuesta;
+};
+
 module.exports = {
     registrarUsuario,
     buscarPorCorreo,
-    listarUsuarios
+    listarUsuarios,
+    cambiarEstadoUsuario
 };

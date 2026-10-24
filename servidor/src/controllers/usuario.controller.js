@@ -32,7 +32,28 @@ const listar = async (req, res) => {
     }
 };
 
+const cambiarEstado = async (req, res) => {
+    try {
+        const usuario = await usuarioService.cambiarEstadoUsuario(
+            req.params.id,
+            req.body.activo
+        );
+
+        res.json({
+            mensaje: usuario.activo
+                ? 'Usuario activado correctamente'
+                : 'Usuario desactivado correctamente',
+            usuario
+        });
+    } catch (error) {
+        res.status(400).json({ mensaje: error.message });
+    }
+};
+
 module.exports = {
     registrar,
-    listar
+    listar,
+    cambiarEstado
 };
+
+

@@ -4,8 +4,14 @@
       <h1>Mi almacenamiento</h1>
       <p>Consulta el espacio utilizado y el disponible en tu cuenta.</p>
     </div>
-    <button type="button" (click)="consultar()">Actualizar</button>
+    <button type="button" [disabled]="cargando" (click)="consultar()">
+      {{ cargando ? 'Actualizando...' : 'Actualizar' }}
+    </button>
   </header>
+
+  @if (mensaje) {
+    <p class="mensaje" role="status">{{ mensaje }}</p>
+  }
 
   @if (datos) {
     <section class="tarjeta">
@@ -13,17 +19,17 @@
 
       <div class="dato">
         <span>Espacio total</span>
-        <strong>{{ datos.almacenamientoTotal ?? 0 }} bytes</strong>
+       <strong>{{ formatearBytes(datos.almacenamientoTotal) }}</strong>
       </div>
 
       <div class="dato">
         <span>Espacio utilizado</span>
-        <strong>{{ datos.almacenamientoUsado ?? 0 }} bytes</strong>
+        <strong>{{ formatearBytes(datos.almacenamientoUsado) }}</strong>
       </div>
 
       <div class="dato">
         <span>Espacio disponible</span>
-        <strong>{{ datos.almacenamientoDisponible ?? 0 }} bytes</strong>
+        <strong>{{ formatearBytes(datos.almacenamientoDisponible || (datos.almacenamientoTotal - datos.almacenamientoUsado)) }}</strong>
       </div>
 
       <div class="barra">

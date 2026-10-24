@@ -12,10 +12,8 @@ router.post('/', verificarToken, carpetaController.crear);
 router.get('/', verificarToken, carpetaController.listar);
 
 // Operacion para obtener todas las carpetas activas del usuario
-router.get(
-    '/todas',
-    verificarToken,
-    carpetaController.listarTodas
-);
+router.get('/todas', verificarToken, carpetaController.listarTodas);
+
+router.put('/:id', verificarToken, carpetaController.actualizar);
 
 module.exports = router;

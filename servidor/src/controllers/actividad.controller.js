@@ -4,24 +4,18 @@ const actividadService = require('../services/actividad.service');
 const listar = async (req, res) => {
 
     try {
-
-        const actividades =
-            await actividadService.listarActividadesUsuario(
-                req.usuario.id,
-                req.query.fechaInicio,
-                req.query.fechaFin
+            const actividades = await actividadService.listarTodasLasActividades(
+            req.query.fechaInicio,
+            req.query.fechaFin
             );
-
-        res.json(actividades);
-
+                res.json(actividades);
     } catch (error) {
-
         res.status(500).json({
-            mensaje: 'Error al consultar el historial'
+            mensaje: 'Error al consultar el historial general de actividad'
         });
     }
 };
-
 module.exports = {
     listar
 };
+

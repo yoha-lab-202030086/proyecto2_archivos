@@ -42,4 +42,38 @@ export class Usuarios implements OnInit {
       }
     });
   }
+
+cambiarEstado(usuario: any): void {
+  const activoNuevo = usuario.activo !== true;
+
+  const accion = activoNuevo ? 'activar' : 'desactivar';
+
+  if (!confirm(`¿Deseas ${accion} a ${usuario.nombre}?`)) {
+    return;
+  }
+
+  this.cargando = true;
+  this.mensaje = '';
+
+  this.api.modificarParcial(
+    `usuarios/${usuario._id}/estado`,
+    { activo: activoNuevo }
+  ).subscribe({
+    next: (respuesta: any) => {
+      this.mensaje = respuesta.mensaje ||
+        'Estado del usuario actualizado correctamente.';
+
+      // Actualizar el estado visible sin borrar el resto de los datos.
+      usuario.activo = activoNuevo;
+      this.cargando = false;
+      this.cd.detectChanges();
+    },
+    error: (error) => {
+      this.mensaje = error.error?.mensaje ||
+        'No se pudo cambiar el estado del usuario.';
+      this.cargando = false;
+      this.cd.detectChanges();
+    }
+  });
+}
 }

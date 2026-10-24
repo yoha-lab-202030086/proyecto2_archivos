@@ -54,7 +54,6 @@ const crearCarpeta = async (datos, usuarioId) => {
     return carpeta;
 };
 
-// Listar las carpetas que están dentro de una carpeta padre específica
 const listarCarpetas = async (usuarioId, carpetaPadre = null) => {
     return await Carpeta.find({
         propietario: usuarioId,
@@ -74,9 +73,24 @@ const listarTodasLasCarpetas = async (usuarioId) => {
     });
 };
 
+const actualizarCarpeta = async (carpetaId, usuarioId, nuevosDatos) => {
+    if (nuevosDatos.nombre && nuevosDatos.nombre.trim() === '') {
+        throw new Error('El nombre de la carpeta no puede estar vacío');
+    }
+
+    return await Carpeta.findOneAndUpdate(
+        { _id: carpetaId, propietario: usuarioId, eliminada: false },
+        { nombre: nuevosDatos.nombre?.trim() ,
+        carpetaPadre: nuevosDatos.carpetaPadre === undefined ? undefined : nuevosDatos.carpetaPadre //
+        },
+        { new: true }
+    );
+};
+
 
 module.exports = {
     crearCarpeta,
     listarCarpetas,
-    listarTodasLasCarpetas
+    listarTodasLasCarpetas,
+    actualizarCarpeta
 };
