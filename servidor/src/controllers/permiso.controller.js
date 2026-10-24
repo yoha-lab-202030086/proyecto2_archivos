@@ -1,7 +1,6 @@
 
 const permisoService = require('../services/permiso.service');
 
-// Controlador para gestionar la creación o actualización de un permiso de acceso
 const compartir = async (req, res) => {
 
     try {

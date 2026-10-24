@@ -1,7 +1,6 @@
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcryptjs');
 
-// Registrar una cuenta nueva validando campos obligatorios y contraseñas seguras
 const registrarUsuario = async (datos) => {
     if (!datos.nombre || !datos.nombre.trim()) {
         throw new Error('El nombre es obligatorio');
@@ -11,7 +10,6 @@ const registrarUsuario = async (datos) => {
         throw new Error('El correo es obligatorio');
     }
 
-    // Comprobar la longitud minima de seguridad de la contraseña
     if (!datos.contraseña || datos.contraseña.length < 8) {
         throw new Error('La contraseña debe tener al menos 8 caracteres');
     }

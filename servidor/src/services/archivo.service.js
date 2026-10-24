@@ -6,7 +6,6 @@ const obtenerBucket = require('../config/gridfs');
 const { comprobarPermiso } = require('./permiso.service');
 const { registrarActividad } = require('./actividad.service');
 
-// Recibir el archivo en memoria y guardarlo en MongoDB con GridFS
 const subirArchivo = async (archivoRecibido, datos, usuarioId) => {
     if (!archivoRecibido) {
         throw new Error('No se recibió ningún archivo');
@@ -67,7 +66,6 @@ const subirArchivo = async (archivoRecibido, datos, usuarioId) => {
     return archivo;
 };
 
-// Revisa el permiso en el orden correcto y obtiene el flujo de GridFS
 const descargarArchivo = async (idArchivo, usuarioId) => {
     const archivo = await Archivo.findOne({ _id: idArchivo, eliminado: false });
 
@@ -75,7 +73,6 @@ const descargarArchivo = async (idArchivo, usuarioId) => {
         throw new Error('Archivo no encontrado');
     }
 
-    // Comprobación de permisos con el orden obligatorio de argumentos
     const tienePermiso = await comprobarPermiso(
         usuarioId,
         'ARCHIVO',
@@ -91,7 +88,6 @@ const descargarArchivo = async (idArchivo, usuarioId) => {
     return { archivo, stream: bucket.openDownloadStream(archivo.gridFsId) };
 };
 
-// Buscar el archivo por su ID y cambiar el nombre
 const renombrarArchivo = async (idArchivo, usuarioId, nuevoNombre) => {
     if (!nuevoNombre || nuevoNombre.trim() === '') {
         throw new Error('El nombre del archivo es obligatorio');
@@ -117,7 +113,6 @@ const renombrarArchivo = async (idArchivo, usuarioId, nuevoNombre) => {
     return archivo;
 };
 
-// Cambiar la carpeta del archivo
 const moverArchivo = async (idArchivo, usuarioId, nuevaCarpetaId) => {
     const archivo = await Archivo.findOne({ _id: idArchivo, propietario: usuarioId, eliminado: false });
 
@@ -145,12 +140,10 @@ const moverArchivo = async (idArchivo, usuarioId, nuevaCarpetaId) => {
     return archivo;
 };
 
-// Consultar los archivos activos del usuario
 const listarArchivos = async (usuarioId) => {
     return await Archivo.find({ propietario: usuarioId, eliminado: false }).populate('carpeta', 'nombre').sort({ fechaSubida: -1 });
 };
 
-// Buscar archivos usando filtros de comillas seguras para evitar fallas de sintaxis
 const buscarArchivos = async (usuarioId, texto) => {
     return await Archivo.find({
         propietario: usuarioId,

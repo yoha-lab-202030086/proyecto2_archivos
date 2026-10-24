@@ -6,7 +6,6 @@ const Permiso = require('../models/Permiso');
 const obtenerBucket = require('../config/gridfs');
 const { registrarActividad } = require('./actividad.service');
 
-// Cambiar el estado de un archivo a eliminado para enviarlo a la papelera
 const enviarArchivoPapelera = async (archivoId, usuarioId) => {
     const archivo = await Archivo.findOne({ _id: archivoId, propietario: usuarioId, eliminado: false });
     if (!archivo) {
@@ -27,7 +26,6 @@ const enviarArchivoPapelera = async (archivoId, usuarioId) => {
     return archivo;
 };
 
-// Buscar la carpeta y marcar todos sus archivos y subcarpetas hijas
 const enviarCarpetaPapelera = async (carpetaId, usuarioId) => {
     const carpetaInicial = await Carpeta.findOne({
         _id: carpetaId,
@@ -74,7 +72,6 @@ const enviarCarpetaPapelera = async (carpetaId, usuarioId) => {
     return carpetaInicial;
 };
 
-// Cambiar el estado del archivo para sacarlo de la papelera y restaurarlo
 const restaurarArchivo = async (archivoId, usuarioId) => {
     const archivo = await Archivo.findOne({ _id: archivoId, propietario: usuarioId, eliminado: true });
     if (!archivo) {
@@ -94,7 +91,6 @@ const restaurarArchivo = async (archivoId, usuarioId) => {
     return archivo;
 };
 
-// Restaurar una carpeta y todo su contenido en cascada si el padre esta activo
 const restaurarCarpeta = async (carpetaId, usuarioId) => {
     const carpetaInicial = await Carpeta.findOne({
         _id: carpetaId,
@@ -153,7 +149,6 @@ const restaurarCarpeta = async (carpetaId, usuarioId) => {
     return carpetaInicial;
 };
 
-// Eliminar un archivo borrando sus datos en GridFS
 const eliminarArchivoDefinitivo = async (archivoId, usuarioId) => {
     const archivo = await Archivo.findOne({ _id: archivoId, propietario: usuarioId, eliminado: true });
     if (!archivo) {
@@ -176,7 +171,6 @@ const eliminarArchivoDefinitivo = async (archivoId, usuarioId) => {
     return archivo;
 };
 
-// Eliminar una carpeta borrando archivos de GridFS y permisos de base de datos
 const eliminarCarpetaDefinitiva = async (carpetaId, usuarioId) => {
     const carpetaInicial = await Carpeta.findOne({
         _id: carpetaId,
@@ -260,12 +254,10 @@ const eliminarCarpetaDefinitiva = async (carpetaId, usuarioId) => {
     };
 };
 
-// Consultar todos los archivos que se encuentran eliminados en la papelera
 const listarArchivosPapelera = async (usuarioId) => {
     return await Archivo.find({ propietario: usuarioId, eliminado: true }).populate('carpeta', 'nombre');
 };
 
-// Consultar todas las carpetas que se encuentran eliminadas en la papelera
 const listarCarpetasPapelera = async (usuarioId) => {
     return await Carpeta.find({ propietario: usuarioId, eliminada: true }).populate('carpetaPadre', 'nombre');
 };

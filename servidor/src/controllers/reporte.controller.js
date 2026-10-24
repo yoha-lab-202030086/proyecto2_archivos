@@ -1,6 +1,5 @@
 const reporteService = require('../services/reporte.service');
 
-// Procesar de forma generica las peticiones de los reportes analiticos
 const ejecutar = (metodo, obtenerArgumentos = () => []) => {
     return async (req, res) => {
         try {
@@ -8,7 +7,7 @@ const ejecutar = (metodo, obtenerArgumentos = () => []) => {
             const resultado = await reporteService[metodo](...argumentos);
             return res.json(resultado);
         } catch (error) {
-            // Determinar el codigo de error segun el tipo de fallo detectado
+        
             const codigo = [
                 'CastError',
                 'ValidationError'
@@ -48,12 +47,12 @@ const recursosMasCompartidos = ejecutar('obtenerRecursosMasCompartidos');
 
 const compartidosPorUsuario = ejecutar(
     'obtenerCompartidosPorUsuario',
-    req => [req.params.usuarioId]
+    req => [req.params.usuarioId || req.query.usuarioId]
 );
 
 const compartidosConUsuario = ejecutar(
     'obtenerCompartidosConUsuario',
-    req => [req.params.usuarioId]
+    req => [req.params.usuarioId || req.query.usuarioId]
 );
 
 const archivosNoCompartidos = ejecutar('obtenerArchivosNoCompartidos');
@@ -62,18 +61,18 @@ const carpetasMasArchivos = ejecutar('obtenerCarpetasMasArchivos');
 
 const almacenamientoCarpetasPrincipales = ejecutar(
     'obtenerAlmacenamientoCarpetasPrincipales',
-    req => [req.params.usuarioId]
+    req => [req.params.usuarioId || req.query.usuarioId]
 );
 
 const contenidoCarpeta = ejecutar(
     'obtenerContenidoCarpeta',
-    req => [req.params.carpetaId, req.params.usuarioId]
+    req => [req.params.carpetaId || req.query.carpetaId, req.params.usuarioId || req.query.usuarioId]
 );
 
 const actividadUsuario = ejecutar(
     'obtenerActividadUsuario',
     req => [
-        req.params.usuarioId,
+        req.params.usuarioId || req.query.usuarioId,
         req.query.fechaInicio,
         req.query.fechaFin
     ]
@@ -110,3 +109,4 @@ module.exports = {
     actividadesPorPeriodo,
     accionesPrincipales
 };
+

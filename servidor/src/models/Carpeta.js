@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Se crea el modelo de carpetas para poder manejar carpetas y subcarpetas
 const carpetaSchema = new mongoose.Schema({
     nombre: {
         type: String,
@@ -28,7 +27,6 @@ const carpetaSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Indice para buscar las carpetas de un usuario
 carpetaSchema.index({
     propietario: 1,
     carpetaPadre: 1

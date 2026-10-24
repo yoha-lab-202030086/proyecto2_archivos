@@ -5,7 +5,6 @@ const upload = require('../middleware/upload.middleware');
 
 const router = express.Router();
 
-// Subir un archivo
 router.post(
     '/',
     verificarToken,
@@ -13,40 +12,40 @@ router.post(
     archivoController.subir
 );
 
-// Obtiene la lista completa de archivos del usuario
 router.get(
     '/',
     verificarToken,
     archivoController.listar
 );
 
-// Busca archivos por coincidencia de nombre
 router.get(
     '/buscar',
     verificarToken,
     archivoController.buscar
 );
 
-// Descarga un archivo binario directamente desde GridFS
 router.get(
     '/:id/descargar',
     verificarToken,
     archivoController.descargar
 );
 
-// Renombra un archivo
 router.put(
     '/:id/renombrar',
     verificarToken,
     archivoController.renombrar
 );
 
-// Mueve un archivo de carpeta
 router.put(
     '/:id/mover',
     verificarToken,
     archivoController.mover
 );
 
+router.get(
+    '/compartidos',
+    verificarToken,
+    archivoController.listarCompartidos 
+);
 module.exports = router;
 

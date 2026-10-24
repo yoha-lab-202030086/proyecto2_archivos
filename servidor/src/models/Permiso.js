@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Modelo, representa los permisos que un usuario recibe sobre un recurso
 const permisoSchema = new mongoose.Schema({
     recursoTipo: {
         type: String,
@@ -27,7 +26,7 @@ const permisoSchema = new mongoose.Schema({
 
     nivel: {
         type: String,
-        enum: ['LECTURA', 'EDICION'],
+        enum: ['LECTURA', 'COMENTAR', 'EDICION'  ],
         required: true
     },
 
@@ -39,7 +38,6 @@ const permisoSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Evita duplicar el mismo permiso activo
 permisoSchema.index({
     recursoTipo: 1,
     recursoId: 1,

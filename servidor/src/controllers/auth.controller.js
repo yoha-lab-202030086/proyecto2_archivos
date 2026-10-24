@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 
 const usuarioService = require('../services/usuario.service');
 
-// Comprobacion del correo y la contraseña del usuario
 const iniciarSesion = async (req, res) => {
 
     try {
@@ -34,7 +33,6 @@ const iniciarSesion = async (req, res) => {
             });
         }
 
-        // Se crea el token para mantener identificada la sesión
         const token = jwt.sign(
             {
                 id: usuario._id,

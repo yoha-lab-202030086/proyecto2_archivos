@@ -86,7 +86,7 @@ export class Permisos {
     });
   }
 
-  cambiarNivel(permiso: any, nivel: 'LECTURA' | 'EDICION'): void {
+  cambiarNivel(permiso: any, nivel: 'LECTURA' | 'COMENTAR' | 'EDICION'): void {
     this.procesando = true;
     this.mensaje = '';
     this.cd.detectChanges();

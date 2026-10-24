@@ -1,6 +1,5 @@
 const usuarioService = require('../services/usuario.service');
 
-// Controlador que recibe la petición para registrar usuarios
 const registrar = async (req, res) => {
 
     try {

@@ -2,19 +2,16 @@ const mongoose = require('mongoose');
 const Carpeta = require('../models/Carpeta');
 const { registrarActividad } = require('./actividad.service');
 
-
-// Crear una carpeta nueva aplicando controles en el nombre y en las referencias padres
 const crearCarpeta = async (datos, usuarioId) => {
-    // Validar que el nombre no venga vacio
+
     if (!datos.nombre || datos.nombre.trim() === '') {
         throw new Error('El nombre de la carpeta es obligatorio');
     }
 
-    // Quitar espacios vacios sobrantes al inicio o al final
     const nombreLimpio = datos.nombre.trim();
 
     if (datos.carpetaPadre) {
-        // Validar que el formato del ID del directorio padre sea correcto
+       
         if (!mongoose.Types.ObjectId.isValid(datos.carpetaPadre)) {
             throw new Error('El identificador de la carpeta padre no es válido');
         }
@@ -46,7 +43,6 @@ const crearCarpeta = async (datos, usuarioId) => {
     detalle: `Se creó la carpeta ${carpeta.nombre}`
 });
 
-    // Validar que la carpeta creada no intente referenciarse a si misma como padre
     if (carpeta.carpetaPadre && carpeta.carpetaPadre.toString() === carpeta._id.toString()) {
         throw new Error('Una carpeta no puede ser su propia carpeta padre');
     }
@@ -86,7 +82,6 @@ const actualizarCarpeta = async (carpetaId, usuarioId, nuevosDatos) => {
         { new: true }
     );
 };
-
 
 module.exports = {
     crearCarpeta,

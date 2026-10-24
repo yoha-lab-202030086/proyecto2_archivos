@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Usuario = require('../models/Usuario');
 
-// Verificar el token y comprobar que la cuenta siga activa en la base de datos
 const verificarToken = async (req, res, next) => {
     try {
         const encabezado = req.headers.authorization;
@@ -15,7 +14,6 @@ const verificarToken = async (req, res, next) => {
         const token = encabezado.split(' ')[1];
         const datos = jwt.verify(token, process.env.JWT_SECRET);
 
-        // Consultar el estado real de la cuenta en tiempo real
         const usuario = await Usuario.findById(datos.id)
             .select('_id nombre correo rol activo');
 

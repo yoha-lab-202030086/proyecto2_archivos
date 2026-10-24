@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// se crea el modelo para guardar la información de los usuarios
 const usuarioSchema = new mongoose.Schema({
     nombre: {
         type: String,
@@ -45,7 +44,6 @@ const usuarioSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Se crea un índice para poder buscar usuarios por correo
 usuarioSchema.index({ correo: 1 });
 
 module.exports = mongoose.model('Usuario', usuarioSchema);

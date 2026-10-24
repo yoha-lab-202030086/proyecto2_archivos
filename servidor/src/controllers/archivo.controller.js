@@ -90,6 +90,7 @@ const mover = async (req, res) => {
     }
 };
 
+
 const listar = async (req, res) => {
     try {
         const archivos = await archivoService.listarArchivos(
@@ -100,6 +101,7 @@ const listar = async (req, res) => {
         res.status(500).json({ mensaje: error.message });
     }
 };
+
 
 const buscar = async (req, res) => {
     try {
@@ -113,11 +115,46 @@ const buscar = async (req, res) => {
     }
 };
 
+
+
+
+const listarCompartidos = async (req, res) => {
+    try {
+        const Permiso = require('../models/Permiso');
+        const Archivo = require('../models/Archivo');
+
+        const permisosActivos = await Permiso.find({
+            usuario: req.usuario.id,
+            recursoTipo: 'ARCHIVO',
+            activo: true
+        }).select('recursoId nivel');
+
+        if (!permisosActivos || permisosActivos.length === 0) {
+            return res.json([]);
+        }
+
+        const idsArchivos = permisosActivos.map(p => p.recursoId);
+
+        const archivosCompartidos = await Archivo.find({
+            _id: { $in: idsArchivos },
+            eliminado: false
+        }).populate('propietario', 'nombre correo');
+
+        res.json(archivosCompartidos);
+    } catch (error) {
+        res.status(500).json({ mensaje: error.message });
+    }
+};
+
 module.exports = {
     subir,
     descargar,
     renombrar,
     mover,
     listar,
-    buscar
+    buscar,
+
+
+
+     listarCompartidos
 };

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Se Guardan los datos que se necesitan para identificar y organizar cada archivo
 const archivoSchema = new mongoose.Schema({
     nombre: {
         type: String,
@@ -46,7 +45,6 @@ const archivoSchema = new mongoose.Schema({
     }
 });
 
-// Indice para buscar archivos por propietario y carpeta
 archivoSchema.index({
     propietario: 1,
     carpeta: 1

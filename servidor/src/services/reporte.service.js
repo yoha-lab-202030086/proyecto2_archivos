@@ -5,14 +5,12 @@ const Actividad = require('../models/Actividad');
 const Permiso = require('../models/Permiso');
 const Carpeta = require('../models/Carpeta');
 
-// Validar identificadores de MongoDB.
 const validarId = (id, nombre = 'identificador') => {
     if (!mongoose.isValidObjectId(id)) {
         throw new Error(`El ${nombre} no es válido`);
     }
 };
 
-// Crear filtro de fechas para los archivos.
 const crearFiltroFechas = (fechaInicio, fechaFin) => {
     const filtro = {};
 
@@ -53,7 +51,6 @@ const crearFiltroFechas = (fechaInicio, fechaFin) => {
     return filtro;
 };
 
-// 1. Los 10 archivos más grandes.
 const obtenerArchivosMasGrandes = async () => {
     return Archivo.find({ eliminado: { $ne: true } })
         .sort({ tamaño: -1 })
@@ -62,7 +59,6 @@ const obtenerArchivosMasGrandes = async () => {
         .select('nombre tipo tamaño propietario fechaSubida');
 };
 
-// 2. Cantidad y espacio utilizado por tipo.
 const obtenerArchivosPorTipo = async () => {
     return Archivo.aggregate([
         { $match: { eliminado: { $ne: true } } },
@@ -77,7 +73,6 @@ const obtenerArchivosPorTipo = async () => {
     ]);
 };
 
-// 3. Archivos dentro de un rango de fechas.
 const obtenerArchivosPorFecha = async (fechaInicio, fechaFin) => {
     const filtro = {
         eliminado: { $ne: true },
@@ -90,7 +85,6 @@ const obtenerArchivosPorFecha = async (fechaInicio, fechaFin) => {
         .populate('carpeta', 'nombre');
 };
 
-// 4. Archivos con más operaciones registradas.
 const obtenerArchivosMasOperaciones = async () => {
     return Actividad.aggregate([
         {
@@ -129,7 +123,6 @@ const obtenerArchivosMasOperaciones = async () => {
     ]);
 };
 
-// 5. Espacio utilizado por tipo de archivo.
 const obtenerAlmacenamientoPorTipo = async () => {
     return Archivo.aggregate([
         { $match: { eliminado: { $ne: true } } },
@@ -144,7 +137,6 @@ const obtenerAlmacenamientoPorTipo = async () => {
     ]);
 };
 
-// 6. Usuarios con más archivos.
 const obtenerUsuariosMasArchivos = async () => {
     return Archivo.aggregate([
         { $match: { eliminado: { $ne: true } } },
@@ -177,7 +169,6 @@ const obtenerUsuariosMasArchivos = async () => {
     ]);
 };
 
-// 7. Almacenamiento usado por usuario.
 const obtenerAlmacenamientoPorUsuario = async () => {
     return Usuario.find({ activo: true })
         .select('nombre correo almacenamientoTotal almacenamientoUsado')
@@ -185,7 +176,6 @@ const obtenerAlmacenamientoPorUsuario = async () => {
         .limit(10);
 };
 
-// 8. Porcentaje de almacenamiento utilizado.
 const obtenerPorcentajeAlmacenamiento = async () => {
     const usuarios = await Usuario.find({ activo: true })
         .select('nombre correo almacenamientoTotal almacenamientoUsado');
@@ -208,7 +198,6 @@ const obtenerPorcentajeAlmacenamiento = async () => {
     });
 };
 
-// 9. Usuarios que más recursos comparten.
 const obtenerUsuariosMasComparten = async () => {
     return Permiso.aggregate([
         { $match: { activo: true } },
@@ -241,7 +230,6 @@ const obtenerUsuariosMasComparten = async () => {
     ]);
 };
 
-// 10. Archivos compartidos con más usuarios.
 const obtenerRecursosMasCompartidos = async () => {
     return Permiso.aggregate([
         {
@@ -284,7 +272,6 @@ const obtenerRecursosMasCompartidos = async () => {
     ]);
 };
 
-// 11. Archivos que no tienen permisos activos de compartición.
 const obtenerArchivosNoCompartidos = async () => {
     const compartidos = await Permiso.distinct('recursoId', {
         activo: true,
@@ -297,7 +284,6 @@ const obtenerArchivosNoCompartidos = async () => {
     }).populate('propietario', 'nombre correo');
 };
 
-// 12. Carpetas con más archivos directos.
 const obtenerCarpetasMasArchivos = async () => {
     return Archivo.aggregate([
         { $match: { eliminado: { $ne: true }, carpeta: { $ne: null } } },
@@ -329,7 +315,6 @@ const obtenerCarpetasMasArchivos = async () => {
     ]);
 };
 
-// 13. Actividades agrupadas por acción.
 const obtenerActividadesPorTipo = async () => {
     return Actividad.aggregate([
         {
@@ -342,7 +327,6 @@ const obtenerActividadesPorTipo = async () => {
     ]);
 };
 
-// 14. Actividades por periodo: dia, semana, mes o anio.
 const obtenerActividadesPorPeriodo = async (periodo = 'mes') => {
     const formatos = {
         dia: '%Y-%m-%d',
@@ -371,7 +355,6 @@ const obtenerActividadesPorPeriodo = async (periodo = 'mes') => {
     ]);
 };
 
-// 15. Acciones principales registradas.
 const obtenerAccionesPrincipales = async () => {
     return Actividad.aggregate([
         {

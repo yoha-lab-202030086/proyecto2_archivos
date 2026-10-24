@@ -36,6 +36,7 @@
     <label for="nivel">Nivel de acceso</label>
      <select id="nivel" name="nivel" [(ngModel)]="nivel" [disabled]="procesando">
       <option value="LECTURA">Lectura</option>
+      <option value="COMENTAR">Comentar</option>
       <option value="EDICION">Edición</option>
     </select>
 
@@ -64,7 +65,7 @@
           <small>Acceso actual: {{ permiso.nivel }}</small>
         </div>
 
-        <div class="acciones">
+                <div class="acciones">
           <button
             type="button"
             (click)="cambiarNivel(permiso, 'LECTURA')"
@@ -72,6 +73,14 @@
           >
             Lectura
           </button>
+          <button
+            type="button"
+            (click)="cambiarNivel(permiso, 'COMENTAR')"
+            [disabled]="permiso.nivel === 'COMENTAR' || procesando"
+          >
+            Comentar
+          </button>
+
           <button
             type="button"
             (click)="cambiarNivel(permiso, 'EDICION')"

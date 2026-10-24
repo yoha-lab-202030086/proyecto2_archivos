@@ -70,7 +70,6 @@ const ejecutarSeed = async () => {
 
     console.log(`Creados ${usuarios.length} usuarios`);
 
-    // Crear una carpeta principal y una subcarpeta por usuario.
     const carpetasPorUsuario = [];
 
     for (const usuario of usuarios) {
@@ -113,7 +112,6 @@ const ejecutarSeed = async () => {
         usuarios.map(usuario => [usuario._id.toString(), 0])
     );
 
-    // Crear 50 archivos y guardar su contenido en GridFS.
     for (let i = 0; i < 50; i++) {
         const indiceUsuario = i % usuarios.length;
         const usuario = usuarios[indiceUsuario];
@@ -166,7 +164,6 @@ const ejecutarSeed = async () => {
         });
     }
 
-    // Actualizar el almacenamiento incluyendo archivos en papelera.
     for (const usuario of usuarios) {
         usuario.almacenamientoUsado =
             almacenamientoPorUsuario.get(usuario._id.toString()) || 0;
@@ -174,7 +171,6 @@ const ejecutarSeed = async () => {
         await usuario.save();
     }
 
-    // Crear 20 permisos activos entre usuarios distintos.
     for (let i = 0; i < 20; i++) {
         const archivo = archivos[i];
         const propietario = usuarios[i % usuarios.length];

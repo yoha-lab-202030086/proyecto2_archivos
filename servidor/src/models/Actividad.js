@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Guarda las acciones importantes que realizan los usuarios
 const actividadSchema = new mongoose.Schema({
     usuario: {
         type: mongoose.Schema.Types.ObjectId,

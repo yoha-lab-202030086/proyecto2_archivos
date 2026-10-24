@@ -5,7 +5,6 @@ const { verificarToken } = require('../middleware/auth.middleware');
 
 const router = express.Router();
 
-// El usuario autenticado puede consultar su historial
 router.get(
     '/',
     verificarToken,

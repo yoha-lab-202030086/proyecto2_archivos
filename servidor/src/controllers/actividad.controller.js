@@ -1,6 +1,5 @@
 const actividadService = require('../services/actividad.service');
 
-// Consulta el historial del usuario autenticado
 const listar = async (req, res) => {
 
     try {

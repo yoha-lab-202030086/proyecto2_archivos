@@ -1,6 +1,5 @@
 const carpetaService = require('../services/carpeta.service');
 
-// Manda los datos al servicio para crear una carpeta con el usuario logueado
 const crear = async (req, res) => {
 
     try {
@@ -20,7 +19,6 @@ const crear = async (req, res) => {
     }
 };
 
-// Solicita las carpetas de un directorio especifico al servicio
 const listar = async (req, res) => {
 
     try {

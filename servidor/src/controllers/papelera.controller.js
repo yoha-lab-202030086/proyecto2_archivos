@@ -124,7 +124,6 @@ const eliminarCarpetaDefinitiva = async (req, res) => {
     }
 };
 
-// Solicitar al servicio las listas unificadas de todo lo que está borrado
 const listar = async (req, res) => {
     try {
         const archivos = await papeleraService.listarArchivosPapelera(req.usuario.id);

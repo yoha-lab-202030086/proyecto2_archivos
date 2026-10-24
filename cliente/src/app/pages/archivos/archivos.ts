@@ -80,7 +80,7 @@ export class Archivos implements OnInit {
   }
 
   subirArchivo(): void {
-    // Validar seleccion
+
     if (!this.archivoSeleccionado) {
       this.mensaje = 'Selecciona un archivo antes de subirlo.';
       return;
@@ -92,14 +92,12 @@ export class Archivos implements OnInit {
       return;
     }
 
-    // Validar tamaño en el navegador
     const maximoBytes = 20 * 1024 * 1024;
     if (this.archivoSeleccionado.size > maximoBytes) {
       this.mensaje = 'El archivo supera los 20 MB permitidos por esta interfaz.';
       return;
     }
 
-    // Control de carga
     this.procesando = true;
     this.mensaje = '';
     this.cd.detectChanges();
@@ -155,7 +153,7 @@ export class Archivos implements OnInit {
   }
 
   renombrar(archivo: any): void {
-    // Confirmar renombrado 
+     
     const nuevoNombre = prompt('Introduce el nuevo nombre:', archivo.nombre);
 
     if (!nuevoNombre?.trim()) {
@@ -206,7 +204,7 @@ export class Archivos implements OnInit {
   }
  
   enviarPapelera(archivo: any): void {
-    // Confirmar eliminacion
+    
     if (!confirm('¿Quieres enviar este archivo a la papelera?')) {
       return;
     }

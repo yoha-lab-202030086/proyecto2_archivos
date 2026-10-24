@@ -1,6 +1,5 @@
 const almacenamientoService = require('../services/almacenamiento.service');
 
-// Obtener los datos de consumo de espacio del usuario logueado
 const consultar = async (req, res) => {
     try {
         const almacenamiento = await almacenamientoService.consultarAlmacenamiento(

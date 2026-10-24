@@ -63,7 +63,6 @@ cambiarEstado(usuario: any): void {
       this.mensaje = respuesta.mensaje ||
         'Estado del usuario actualizado correctamente.';
 
-      // Actualizar el estado visible sin borrar el resto de los datos.
       usuario.activo = activoNuevo;
       this.cargando = false;
       this.cd.detectChanges();
